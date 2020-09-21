@@ -1,4 +1,4 @@
-package com.example.emptyproject;
+package com.example.ettdemoproject;
 
 import org.junit.Test;
 
