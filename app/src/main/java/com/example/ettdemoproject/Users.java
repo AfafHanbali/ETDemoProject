@@ -10,10 +10,12 @@ public class Users {
 
     //TODO : def no-arg constructor
     public String getUsername() {
+
         return username;
     }
 
     public String getEmail() {
+
         return email;
     }
 
