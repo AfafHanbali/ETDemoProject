@@ -1,5 +1,6 @@
 package com.example.ettdemoproject;
 
+
 public class Users {
 
 
@@ -7,6 +8,7 @@ public class Users {
     private String email;
 
 
+    //TODO : def no-arg constructor
     public String getUsername() {
         return username;
     }
