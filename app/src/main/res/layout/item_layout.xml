@@ -2,7 +2,7 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="130dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
@@ -16,7 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
-        android:text="Userame: " />
+        android:text="Userame: "
+        android:textColor="#27764A"
+        android:textAlignment="center"
+        android:padding="10dp"
+        />
 
     <TextView
         android:id="@+id/textView2"
@@ -24,14 +28,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:layout_marginLeft="15dp"
-        android:text="Email: " />
+        android:text="Email: "
+        android:textColor="#27764A"
+        android:textAlignment="center"
+        android:padding="10dp"
+        />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="90dp"
+        android:layout_marginLeft="110dp"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:padding="10dp"
+        android:background="@drawable/textview_border"
          />
 
     <TextView
@@ -39,6 +51,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:layout_marginLeft="90dp"
+        android:layout_marginLeft="110dp"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:padding="10dp"
+        android:background="@drawable/textview_border"
          />
 </FrameLayout>
