@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ETDemoProject</string>
+    <string name="api">users</string>
+    <string name="username">Username: </string>
+    <string name="email">Email: </string>
+
 </resources>

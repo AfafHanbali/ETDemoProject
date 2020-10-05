@@ -1,14 +1,20 @@
-package com.example.ettdemoproject;
+package com.example.ettdemoproject.networking;
 
+/**
+ * @author : Afaf Hanbali
+ * Created on 2020-Oct-5
+ */
 
-public class Users {
+public class User {
 
 
     private String username;
     private String email;
 
 
-    //TODO : def no-arg constructor
+    public User() {
+    }
+
     public String getUsername() {
 
         return username;

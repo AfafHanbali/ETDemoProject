@@ -1,6 +1,5 @@
-package com.example.ettdemoproject;
+package com.example.ettdemoproject.UI;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,53 +8,53 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ettdemoproject.R;
+import com.example.ettdemoproject.networking.User;
+
 import java.util.List;
 
-import retrofit2.Callback;
+/**
+ * @author : Afaf Hanbali
+ * Created on 2020-Oct-5
+ */
 
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
-    Context context;
-    String name[];
-    String email[];
+    List<User> usersList;
 
-    public RvAdapter(Context cx, String s1[], String s2[]) { //TODO : naming
-        context = cx;
-        name = s1;
-        email = s2;
+    public RvAdapter(List<User> usersList) {
+        this.usersList = usersList;
 
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //TODO : no need to pass context , you can get from parent
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //TODO : good but i always tend to let holder bind
-        holder.username.setText(name[position]);
-        holder.email.setText(email[position]);
+        holder.usernameTextView.setText(usersList.get(position).getUsername());
+        holder.emailTextView.setText(usersList.get(position).getEmail());
+
     }
 
     @Override
     public int getItemCount() {
-        return email.length;
+        return usersList.size();
     }
 
-    //TODO : convention
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView username;
-        TextView email;
+        TextView usernameTextView;
+        TextView emailTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.username);
-            email = itemView.findViewById(R.id.email);
+            usernameTextView = itemView.findViewById(R.id.tv_username);
+            emailTextView = itemView.findViewById(R.id.tv_email);
         }
     }
 }
