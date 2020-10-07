@@ -1,5 +1,7 @@
 package com.example.ettdemoproject.networking;
 
+import com.example.ettdemoproject.User;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -12,7 +14,7 @@ import retrofit2.http.GET;
 
 public interface JsonPlaceHolder {
 
-    public static final String api = "users";
+    public String api = "users";
 
     @GET(api)
     Call<List<User>> getUsers();

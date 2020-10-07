@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RetrofitActivity">
+    tools:context=".UsersListActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_listOfUsers"
+        android:id="@+id/rv_users"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="146dp" />
+         />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

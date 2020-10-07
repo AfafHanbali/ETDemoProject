@@ -4,12 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.ettdemoproject.UI.RvAdapter;
+import com.example.ettdemoproject.UI.UsersAdapter;
 import com.example.ettdemoproject.networking.JsonPlaceHolder;
-import com.example.ettdemoproject.networking.User;
 
 import java.util.List;
 
@@ -25,15 +25,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created on 2020-Oct-5
  */
 
-public class RetrofitActivity extends AppCompatActivity {
+public class UsersListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
 
     private RecyclerView mListOfUsers;
+    private List<User> usersList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mListOfUsers = (RecyclerView) findViewById(R.id.rv_listOfUsers);
+        mListOfUsers = (RecyclerView) findViewById(R.id.rv_users);
         fetchFromApi();
 
     }
@@ -49,26 +50,42 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (!response.isSuccessful()) {
-                    Toast toast = Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG);
-                    toast.show();
+                    showToast(Integer.toString(response.code()));
                     return;
                 }
-                List<User> usersList = response.body();
+                usersList = response.body();
                 setupAdapter(usersList);
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable tt) {
-                Toast toast = Toast.makeText(getApplicationContext(), tt.getMessage(), Toast.LENGTH_LONG);
-                toast.show();
+                showToast(tt.getMessage());
             }
         });
 
     }
 
     public void setupAdapter(List<User> usersList) {
-        RvAdapter rvAdapter = new RvAdapter(usersList);
-        mListOfUsers.setAdapter(rvAdapter);
+        UsersAdapter usersAdapter = new UsersAdapter(usersList, this);
+        mListOfUsers.setAdapter(usersAdapter);
         mListOfUsers.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    public void showToast(String toastMsg) {
+        Toast toast = Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    @Override
+    public void onUserClick(int position) {
+
+        Intent intent = new Intent(this, UserInformation.class);
+        intent.putExtra("id", Integer.toString(usersList.get(position).getId()));
+        intent.putExtra("name", usersList.get(position).getName());
+        intent.putExtra("phone", usersList.get(position).getPhone());
+        intent.putExtra("website", usersList.get(position).getWebsite());
+
+        startActivity(intent);
+
     }
 }

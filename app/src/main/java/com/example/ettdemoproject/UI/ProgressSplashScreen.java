@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.ettdemoproject.R;
-import com.example.ettdemoproject.RetrofitActivity;
+import com.example.ettdemoproject.UsersListActivity;
 /**
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
@@ -25,7 +25,7 @@ public class ProgressSplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(ProgressSplashScreen.this, RetrofitActivity.class);
+                Intent intent = new Intent(ProgressSplashScreen.this, UsersListActivity.class);
 
                 startActivity(intent);
                 finish();
