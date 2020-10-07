@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.UsersListActivity;
+
 /**
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
@@ -17,6 +18,7 @@ public class ProgressSplashScreen extends AppCompatActivity {
 
     private static final long SPLASH_TIMEOUT = 3000;
 
+    //TODO : this is not what i meant by using progress !
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

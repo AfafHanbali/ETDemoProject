@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".UsersListActivity">
 
-
+    <!--    //TODO :  recycler is always displaying a list , i just need to know list of what ? users ? addresses ? ..etc . pls rename into 'rv_users'-->
+    <!--TODO : pls lose the absolute dimensions , i need it compatiable with multiple screen sizes -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_users"
         android:layout_width="match_parent"
