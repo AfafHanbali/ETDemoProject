@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/**
+ * @author : Afaf Hanbali
+ * Created on 2020-Oct-6
+ */
+
 public class UserInformation extends AppCompatActivity {
 
     private TextView id;
