@@ -25,7 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created on 2020-Oct-5
  */
 
-//TODO : what if i have 2 screens that calls retrofit ? pls rename into UsersListActivty
 public class UsersListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
 
     private RecyclerView mListOfUsers;
@@ -54,8 +53,6 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (!response.isSuccessful()) {
                     showToast(Integer.toString(response.code()));
-                    // TODO : use a method 'showToast'mith msg parameter and avoiding duplicate code as in "onFailure"
-                    
                     return;
                 }
                 usersList = response.body();

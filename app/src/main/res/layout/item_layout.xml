@@ -28,6 +28,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- TODO : pls try to put a text with 60 chars inside email label and let me know how it looks . -->
+    <!-- it got out of the whole item -->
+
     <TextView
         android:id="@+id/label_email"
         android:layout_width="wrap_content"

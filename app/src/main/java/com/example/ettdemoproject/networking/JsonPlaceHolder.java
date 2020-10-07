@@ -14,7 +14,6 @@ import retrofit2.http.GET;
 
 public interface JsonPlaceHolder {
 
-    //TODO : just define as String , since its a member of interface its static final by def .
     public String api = "users";
     
 
