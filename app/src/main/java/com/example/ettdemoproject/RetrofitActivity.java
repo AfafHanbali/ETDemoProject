@@ -25,6 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created on 2020-Oct-5
  */
 
+//TODO : what if i have 2 screens that calls retrofit ? pls rename into UsersListActivty
 public class RetrofitActivity extends AppCompatActivity {
 
     private RecyclerView mListOfUsers;
@@ -39,6 +40,8 @@ public class RetrofitActivity extends AppCompatActivity {
     }
 
     public void fetchFromApi() {
+
+        // TODO : i expect a sigelton instance here . what if i need to call retrofit in another screen.
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://jsonplaceholder.typicode.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -49,6 +52,7 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (!response.isSuccessful()) {
+                    // TODO : use a method 'showToast'mith msg parameter and avoiding duplicate code as in "onFailure"
                     Toast toast = Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG);
                     toast.show();
                     return;

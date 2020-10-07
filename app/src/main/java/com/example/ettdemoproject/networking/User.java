@@ -5,6 +5,9 @@ package com.example.ettdemoproject.networking;
  * Created on 2020-Oct-5
  */
 
+
+//TODO : this is a data model , it doent belong to the networking package.
+
 public class User {
 
 
@@ -12,6 +15,7 @@ public class User {
     private String email;
 
 
+    //TODO : add the otehr data you have in response in prepare for second stage (opening details screen)
     public User() {
     }
 
