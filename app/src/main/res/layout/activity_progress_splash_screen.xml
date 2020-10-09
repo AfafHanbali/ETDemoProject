@@ -15,8 +15,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:indeterminateDrawable="@drawable/progress_style"
-
-
-
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

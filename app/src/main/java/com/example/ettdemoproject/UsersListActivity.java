@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.example.ettdemoproject.UI.UsersAdapter;
 import com.example.ettdemoproject.networking.JsonPlaceHolder;
+import com.example.ettdemoproject.networking.RetrofitActivity;
 
 import java.util.List;
 
@@ -17,7 +20,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.os.SystemClock.sleep;
 
 
 /**
@@ -29,7 +33,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     private RecyclerView mListOfUsers;
     private List<User> usersList;
-
+    private User.Address address;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +45,23 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     public void fetchFromApi() {
 
-        // TODO : i expect a sigelton instance here . what if i need to call retrofit in another screen.
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://jsonplaceholder.typicode.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        Retrofit retrofit = RetrofitActivity.getInstance();
         JsonPlaceHolder jsonPlaceHolder = retrofit.create(JsonPlaceHolder.class);
         Call<List<User>> call = jsonPlaceHolder.getUsers();
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(this, R.style.progressDialog);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("The List of Users is loading...");
+        progressDialog.setTitle("Just a Sec...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        }, 3000);
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
@@ -64,6 +78,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
                 showToast(tt.getMessage());
             }
         });
+
 
     }
 
@@ -84,9 +99,17 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
         Intent intent = new Intent(this, UserInformation.class);
         intent.putExtra("id", Integer.toString(usersList.get(position).getId()));
         intent.putExtra("name", usersList.get(position).getName());
+        intent.putExtra("street", usersList.get(position).getStreet());
+        intent.putExtra("suite", usersList.get(position).getSuite());
+        intent.putExtra("city", usersList.get(position).getCity());
+        intent.putExtra("zipCode", usersList.get(position).getZipCode());
+        intent.putExtra("lat", Double.toString(usersList.get(position).getLatt()));
+        intent.putExtra("lng", Double.toString(usersList.get(position).getLng()));
         intent.putExtra("phone", usersList.get(position).getPhone());
         intent.putExtra("website", usersList.get(position).getWebsite());
-
+        intent.putExtra("companyName", usersList.get(position).getCompanyName());
+        intent.putExtra("catchPhrase", usersList.get(position).getCatchPhrase());
+        intent.putExtra("bs", usersList.get(position).getBs());
         startActivity(intent);
 
     }

@@ -10,71 +10,38 @@ public class User {
     private String name;
     private String username;
     private String email;
+    private Address address;
+    private String phone;
+    private String website;
+    private Company company;
 
-    public static class Address {
+    public class Address {
+
         private String street;
         private String suite;
         private String city;
         private String zipcode;
+        private Geo geo;
 
         public Address() {
         }
 
-        public String getStreet() {
-            return street;
-        }
-
-        public String getSuite() {
-            return suite;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public String getZipcode() {
-            return zipcode;
-        }
-
         public class Geo {
-            private String lat;
-            private String lng;
+            private double lat;
+            private double lng;
 
             public Geo() {
-            }
-
-            public String getLat() {
-                return lat;
-            }
-
-            public String getLng() {
-                return lng;
             }
 
         }
     }
 
-    private String phone;
-    private String website;
-
-    public class Compnay {
+    public class Company {
         private String name;
         private String catchPhrase;
         private String bs;
 
-        public Compnay() {
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getCatchPhrase() {
-            return catchPhrase;
-        }
-
-        public String getBs() {
-            return bs;
+        public Company() {
         }
 
     }
@@ -100,11 +67,59 @@ public class User {
         return email;
     }
 
+
+    public String getStreet() {
+
+        return address.street;
+    }
+
+    public String getSuite() {
+
+        return address.suite;
+    }
+
+    public String getCity() {
+
+        return address.city;
+    }
+
+    public String getZipCode() {
+
+        return address.zipcode;
+    }
+
+    public double getLatt() {
+        return address.geo.lat;
+    }
+
+    public double getLng() {
+        return address.geo.lng;
+    }
+
     public String getPhone() {
+
         return phone;
     }
 
     public String getWebsite() {
+
         return website;
     }
+
+    public String getCompanyName() {
+
+        return company.name;
+    }
+
+    public String getCatchPhrase() {
+
+        return company.catchPhrase;
+    }
+
+    public String getBs() {
+
+        return company.bs;
+    }
+
 }
+

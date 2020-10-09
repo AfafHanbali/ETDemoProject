@@ -18,8 +18,6 @@ import java.util.List;
  * Created on 2020-Oct-5
  */
 
-//TODO : all adapter that extend RecyclerView.Adapter are rvAdapters . pls rename into sth like 'UsersAdapter'
-
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
 
@@ -46,7 +44,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         holder.usernameTextView.setText(usersList.get(position).getUsername());
         holder.emailTextView.setText(usersList.get(position).getEmail());
-        //holder.emailTextView.setText("hjegsjhfbsdjhbvadsjbbdcbdcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
+
 
     }
 

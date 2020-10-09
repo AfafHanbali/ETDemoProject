@@ -15,8 +15,9 @@ import retrofit2.http.GET;
 public interface JsonPlaceHolder {
 
     public String api = "users";
-    
 
     @GET(api)
     Call<List<User>> getUsers();
+
+
 }
