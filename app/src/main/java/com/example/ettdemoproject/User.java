@@ -1,12 +1,13 @@
 package com.example.ettdemoproject;
 
+import java.io.Serializable;
+
 /**
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
 
-//TODO : unless you make this class implements Serializable interface (and any other referenced class ) , you cant pass the whole object to an intent .
-public class User {
+public class User implements Serializable {
 
     private int id;
     private String name;
@@ -17,8 +18,7 @@ public class User {
     private String website;
     private Company company;
 
-    //TODO : memory leak  ,if it has no reference to its enclosing class ,  always make ur inner class static .
-    public class Address {
+    public static class Address implements Serializable{
 
         private String street;
         private String suite;
@@ -29,7 +29,7 @@ public class User {
         public Address() {
         }
 
-        public class Geo {
+        public static class Geo implements Serializable{
             private double lat;
             private double lng;
 
@@ -39,7 +39,7 @@ public class User {
         }
     }
 
-    public class Company {
+    public static class Company implements Serializable{
         private String name;
         private String catchPhrase;
         private String bs;

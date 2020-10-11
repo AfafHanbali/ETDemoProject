@@ -5,469 +5,220 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/personalInfoLayout"
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/profileToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:titleTextColor="@color/colorWhite" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
-            android:background="@drawable/layout_border"
-            android:gravity="center_vertical">
+            android:orientation="vertical">
 
-            <!--  //TODO: pls pls use LinearLayout with horizantal orienation for each row  dont use absolute values . this will create screen sizes issues -->
-            <TextView
-                android:id="@+id/label_id"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="39dp"
-                android:layout_marginLeft="39dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/id"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/label_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="39dp"
-                android:layout_marginLeft="39dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/name"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toBottomOf="@+id/label_id" />
-
-            <TextView
-                android:id="@+id/label_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="39dp"
-                android:layout_marginLeft="39dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/phone"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_name" />
-
-            <TextView
-                android:id="@+id/label_website"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="39dp"
-                android:layout_marginLeft="39dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/website"
-                android:textColor="#27764A"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_phone" />
-
-            <TextView
-                android:id="@+id/tv_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="198dp"
-                android:layout_marginRight="198dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_id"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_website"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="198dp"
-                android:layout_marginRight="198dp"
-                android:layout_marginBottom="24dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_website"
-                app:layout_constraintTop_toBottomOf="@+id/tv_phone"
-                app:layout_constraintVertical_bias="1.0" />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@mipmap/ic_launcher_circle"
+                android:layout_gravity="center"/>
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="72dp"
-                android:layout_marginLeft="72dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="198dp"
-                android:layout_marginRight="198dp"
                 android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_name"
-                app:layout_constraintTop_toBottomOf="@+id/tv_id" />
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/tv_username2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_gravity="center"
+            />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="50dp"
+                android:src="@drawable/ic_mail_icon"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/tv_email2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="50dp"
+                android:src="@drawable/ic_phone_icon"
+                android:layout_gravity="center"
+                />
 
             <TextView
                 android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="72dp"
-                android:layout_marginLeft="72dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="198dp"
-                android:layout_marginRight="198dp"
-                android:maxEms="7"
-                android:singleLine="false"
                 android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_phone"
-                app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+                android:layout_gravity="center"/>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="50dp"
+                android:src="@drawable/ic_website_icon"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/tv_website"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="50dp"
+                android:src="@drawable/ic_address_icon"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="50dp"
+                android:src="@drawable/ic_company_icon"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/tv_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+        </LinearLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/addressLayout"
             android:layout_width="match_parent"
-            android:layout_height="311dp"
-            android:layout_below="@+id/personalInfoLayout"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="2dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
             android:background="@drawable/layout_border"
             android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/label_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="39dp"
-                android:layout_marginLeft="39dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/address"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/label_street"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="74dp"
-                android:layout_marginLeft="74dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/street"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_address" />
-
-            <TextView
-                android:id="@+id/label_suite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="74dp"
-                android:layout_marginLeft="74dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/suite"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_street" />
-
-            <TextView
-                android:id="@+id/label_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="74dp"
-                android:layout_marginLeft="74dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/city"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_suite" />
-
-            <TextView
-                android:id="@+id/label_zipcode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="74dp"
-                android:layout_marginLeft="74dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/zipCode"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_city" />
-
-            <TextView
-                android:id="@+id/label_geo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="74dp"
-                android:layout_marginLeft="74dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/geo"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_zipcode" />
-
-            <TextView
-                android:id="@+id/tv_street"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
-                android:layout_marginLeft="80dp"
-                android:layout_marginTop="56dp"
-                android:layout_marginEnd="157dp"
-                android:layout_marginRight="157dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_street"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_zipcode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="66dp"
-                android:layout_marginLeft="66dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="157dp"
-                android:layout_marginRight="157dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_zipcode"
-                app:layout_constraintTop_toBottomOf="@+id/tv_city" />
-
-            <TextView
-                android:id="@+id/tv_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="92dp"
-                android:layout_marginLeft="92dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="157dp"
-                android:layout_marginRight="157dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_city"
-                app:layout_constraintTop_toBottomOf="@+id/tv_suite" />
-
-            <TextView
-                android:id="@+id/tv_suite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
-                android:layout_marginLeft="84dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="157dp"
-                android:layout_marginRight="157dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_suite"
-                app:layout_constraintTop_toBottomOf="@+id/tv_street" />
-
-            <TextView
-                android:id="@+id/tv_lat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="31dp"
-                android:layout_marginLeft="31dp"
-                android:layout_marginTop="57dp"
-                android:layout_marginEnd="183dp"
-                android:layout_marginRight="183dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_lat"
-                app:layout_constraintTop_toBottomOf="@+id/tv_zipcode" />
-
-            <TextView
-                android:id="@+id/label_lat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="108dp"
-                android:layout_marginLeft="108dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/lat"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_geo" />
-
-            <TextView
-                android:id="@+id/label_lng"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="108dp"
-                android:layout_marginLeft="108dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/lng"
-                android:textColor="#27764A"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_lat" />
-
-            <TextView
-                android:id="@+id/tv_lng"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="31dp"
-                android:layout_marginLeft="31dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="183dp"
-                android:layout_marginRight="183dp"
-                android:layout_marginBottom="24dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_lng"
-                app:layout_constraintTop_toBottomOf="@+id/tv_lat" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/companyInfoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addressLayout"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginBottom="2dp"
-            android:background="@drawable/layout_border"
-            tools:layout_editor_absoluteX="94dp"
-            tools:layout_editor_absoluteY="59dp">
 
-            <TextView
-                android:id="@+id/label_company"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="39dp"
-                android:layout_marginLeft="39dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/company"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/label_companyName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="74dp"
-                android:layout_marginLeft="74dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/companyName"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_company" />
 
-            <TextView
-                android:id="@+id/label_catchPhrase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="74dp"
-                android:layout_marginLeft="74dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/catchPhrase"
-                android:textColor="#27764A"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_companyName" />
 
-            <TextView
-                android:id="@+id/label_bs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="74dp"
-                android:layout_marginLeft="74dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/bs"
-                android:textColor="#27764A"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_catchPhrase" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_companyName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="128dp"
-                android:layout_marginLeft="128dp"
-                android:layout_marginTop="57dp"
-                android:layout_marginEnd="109dp"
-                android:layout_marginRight="109dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_companyName"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_catchPhrase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
-                android:layout_marginLeft="84dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="109dp"
-                android:layout_marginRight="109dp"
-                android:maxEms="10"
-                android:singleLine="false"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/label_catchPhrase"
-                app:layout_constraintTop_toBottomOf="@+id/tv_companyName" />
-
-            <TextView
-                android:id="@+id/tv_bs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="155dp"
-                android:layout_marginLeft="155dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="109dp"
-                android:layout_marginRight="109dp"
-                android:layout_marginBottom="24dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/label_bs"
-                app:layout_constraintTop_toBottomOf="@+id/tv_catchPhrase"
-                app:layout_constraintVertical_bias="0.666" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </RelativeLayout>
 </ScrollView>

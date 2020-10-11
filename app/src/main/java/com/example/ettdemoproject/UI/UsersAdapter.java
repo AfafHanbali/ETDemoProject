@@ -21,13 +21,12 @@ import java.util.List;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
 
-    //TODO : pick a style , either write class members with 'm$' prefix for the whole project or without
     private List<User> usersList;
-    private OnUserListener mOnUserListener;
+    private OnUserListener onUserListener;
 
     public UsersAdapter(List<User> usersList, OnUserListener onUserListener) {
         this.usersList = usersList;
-        this.mOnUserListener = onUserListener;
+        this.onUserListener = onUserListener;
 
     }
 
@@ -36,7 +35,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_layout, parent, false);
-        return new ViewHolder(view, mOnUserListener);
+        return new ViewHolder(view, onUserListener);
     }
 
 
@@ -54,7 +53,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView usernameTextView; //TODO : camel casing naming
+        TextView usernameTextView;
         TextView emailTextView;
         OnUserListener onUserListener;
 
@@ -68,12 +67,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            //TODO : instead of passing index and querying the object later on , pass the object directly .
-            onUserListener.onUserClick(getAdapterPosition());
+            onUserListener.onUserClick(usersList.get(getAdapterPosition()));
         }
     }
 
     public interface OnUserListener {
-        void onUserClick(int position);
+        void onUserClick(User userList);
     }
 }
