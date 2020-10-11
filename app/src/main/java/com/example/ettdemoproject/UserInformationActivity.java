@@ -69,7 +69,7 @@ public class UserInformationActivity extends AppCompatActivity {
         userName.setText(user.getUsername());
         phone.setText(user.getPhone());
         email.setText(user.getEmail());
-        address.setText(user.getStreet() + "'" + "\n" + user.getCity() + "'" + user.getZipCode());
+        address.setText(user.getStreet() + "'" + user.getSuite() + "\n" + user.getCity() + "'" + user.getZipCode());
         website.setText(user.getWebsite());
         company.setText(user.getCompanyName() + "\n" + user.getCatchPhrase() + "\n" + user.getBs());
 
