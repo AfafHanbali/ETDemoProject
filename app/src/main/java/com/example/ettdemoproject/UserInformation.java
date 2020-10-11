@@ -11,8 +11,10 @@ import android.widget.TextView;
  * Created on 2020-Oct-5
  */
 
+//TODO : any activity i create must always has suffix '$Activity'.
 public class UserInformation extends AppCompatActivity {
 
+    //TODO : how could later tell the difference between 'id' as a view and 'id' as an object property ?!
     private TextView id;
     private TextView name;
     private TextView street;
@@ -52,6 +54,7 @@ public class UserInformation extends AppCompatActivity {
 
     public void setFieldsText() {
         Intent intent = getIntent();
+        //TODO : if one of the keys is missing , it will return null and that might write null on the screen or cause runTimeException !
         id.setText(intent.getStringExtra("id"));
         name.setText(intent.getStringExtra("name"));
         street.setText(intent.getStringExtra("street"));

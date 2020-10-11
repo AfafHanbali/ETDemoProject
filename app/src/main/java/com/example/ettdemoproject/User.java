@@ -5,7 +5,9 @@ package com.example.ettdemoproject;
  * Created on 2020-Oct-5
  */
 
+//TODO : unless you make this class implements Serializable interface (and any other referenced class ) , you cant pass the whole object to an intent .
 public class User {
+
     private int id;
     private String name;
     private String username;
@@ -15,6 +17,7 @@ public class User {
     private String website;
     private Company company;
 
+    //TODO : memory leak  ,if it has no reference to its enclosing class ,  always make ur inner class static .
     public class Address {
 
         private String street;

@@ -31,9 +31,13 @@ import static android.os.SystemClock.sleep;
 
 public class UsersListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
 
+    //TODO : pls pick a style
     private RecyclerView mListOfUsers;
     private List<User> usersList;
+
+    //TODO : do you need this address object ?
     private User.Address address;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,19 +47,26 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     }
 
+    //TODO : pls make it more modular by  splitting  the API related code from UI progress code .
     public void fetchFromApi() {
 
         Retrofit retrofit = RetrofitActivity.getInstance();
         JsonPlaceHolder jsonPlaceHolder = retrofit.create(JsonPlaceHolder.class);
         Call<List<User>> call = jsonPlaceHolder.getUsers();
+
+
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(this, R.style.progressDialog);
         progressDialog.setMax(100);
+        // TODO : const strings
         progressDialog.setMessage("The List of Users is loading...");
+        // TODO : const strings
         progressDialog.setTitle("Just a Sec...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
         final Handler handler = new Handler();
+        // TODO : bad practice , what if the response took more time to respond ( it will appear blank after 3sec mark untill its received )
+        //TODO : lets show progress upon calling retrofit and hide on success/failure callbacks
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -66,6 +77,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (!response.isSuccessful()) {
+                    //TODO : showing a user a response code is not very informative , you could build a method to map code to a proper msg .
                     showToast(Integer.toString(response.code()));
                     return;
                 }
@@ -78,7 +90,6 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
                 showToast(tt.getMessage());
             }
         });
-
 
     }
 
@@ -95,7 +106,10 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     @Override
     public void onUserClick(int position) {
-
+        //TODO : bad practice . pls pass/receive the whole object .
+        //TODO : pls also dont call actvities directly , instead build a public static Intent startActivity inside UserInformation activity .
+        // and let it write/read its own keys .
+        // what if (i.e) 'id' was later changed to 'userID' , you will lose a parameter !
         Intent intent = new Intent(this, UserInformation.class);
         intent.putExtra("id", Integer.toString(usersList.get(position).getId()));
         intent.putExtra("name", usersList.get(position).getName());

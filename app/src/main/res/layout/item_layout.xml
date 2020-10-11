@@ -29,7 +29,7 @@
 
     <!-- TODO : pls try to put a text with 60 chars inside email label and let me know how it looks . -->
     <!-- it got out of the whole item -->
-
+    <!-- exactly my point , it will distort the layout , pls find a better approach . -->
     <TextView
         android:id="@+id/label_email"
         android:layout_width="wrap_content"

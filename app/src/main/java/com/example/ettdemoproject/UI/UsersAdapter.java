@@ -21,6 +21,7 @@ import java.util.List;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
 
+    //TODO : pick a style , either write class members with 'm$' prefix for the whole project or without
     private List<User> usersList;
     private OnUserListener mOnUserListener;
 
@@ -45,7 +46,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         holder.usernameTextView.setText(usersList.get(position).getUsername());
         holder.emailTextView.setText(usersList.get(position).getEmail());
 
-
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView usernameTextView;
+        TextView usernameTextView; //TODO : camel casing naming
         TextView emailTextView;
         OnUserListener onUserListener;
 
@@ -68,6 +68,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
+            //TODO : instead of passing index and querying the object later on , pass the object directly .
             onUserListener.onUserClick(getAdapterPosition());
         }
     }

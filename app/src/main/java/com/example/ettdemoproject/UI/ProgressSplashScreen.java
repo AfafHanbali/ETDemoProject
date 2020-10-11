@@ -14,6 +14,7 @@ import com.example.ettdemoproject.UsersListActivity;
  * Created on 2020-Oct-5
  */
 
+// TODO : remove (both from manifest and from package )  , this screen is no longer needed as a progress
 public class ProgressSplashScreen extends AppCompatActivity {
 
     private static final long SPLASH_TIMEOUT = 3000;
