@@ -1,5 +1,6 @@
 package com.example.ettdemoproject.DataModel;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -11,7 +12,9 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -34,17 +37,24 @@ public class UserInformationActivity extends AppCompatActivity {
     private TextView addressTextView;
     private TextView companyTextView;
     private User user;
+    private int position;
     private Toolbar profileToolbar;
+    private ImageView userStar;
     public static final String EMAIL_CHOOSER_TITLE = "Choose your Sending Application:";
     public static final String USER_KEY = "userItem";
+    public static final String POSITION_KEY = "position";
+    public static final int REQUEST_CODE = 11;
+    private static final String BOOLEAN_KEY = "isFavorite";
     private String url;
     private Intent implicitIntent;
 
-    public static void startScreen(Activity srcActivity, User userItem) {
+    public static void startScreen(Activity srcActivity, User userItem, int position) {
         Intent intent = new Intent(srcActivity, UserInformationActivity.class);
         intent.putExtra(USER_KEY, userItem);
-        srcActivity.startActivity(intent);
+        intent.putExtra(POSITION_KEY, Integer.toString(position));
+        srcActivity.startActivityForResult(intent, REQUEST_CODE);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +70,7 @@ public class UserInformationActivity extends AppCompatActivity {
         phoneTextView = findViewById(R.id.tv_phone);
         websiteTextView = findViewById(R.id.tv_website);
         companyTextView = findViewById(R.id.tv_company);
+        userStar = findViewById(R.id.iv_itemStar);
 
         addressTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,14 +98,29 @@ public class UserInformationActivity extends AppCompatActivity {
             }
         });
 
-        setFieldsText();
+        userStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (user.isFavorite()) {
+                    userStar.setImageResource(R.drawable.ic_star_border_24dp);
+                    user.setFavorite(false);
+                } else {
+                    userStar.setImageResource(R.drawable.ic_star_24dp);
+                    user.setFavorite(true);
+                }
+            }
+        });
 
+        setFieldsText();
+        setFieldsResources();
     }
+
 
     private void readIntent() {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(USER_KEY)) {
             user = (User) intent.getSerializableExtra(USER_KEY);
+            position = Integer.parseInt(intent.getStringExtra(POSITION_KEY));
         } else {
             finish();
             System.exit(0);
@@ -137,5 +163,20 @@ public class UserInformationActivity extends AppCompatActivity {
 
     }
 
+    private void setFieldsResources() {
+        if (!user.isFavorite()) {
+            userStar.setImageResource(R.drawable.ic_star_border_24dp);
+        } else {
+            userStar.setImageResource(R.drawable.ic_star_24dp);
+        }
+    }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(BOOLEAN_KEY, Boolean.toString(user.isFavorite()));
+        intent.putExtra(POSITION_KEY, Integer.toString(position));
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }

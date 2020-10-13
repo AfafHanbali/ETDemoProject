@@ -18,6 +18,8 @@ public class User implements Serializable {
     private String website;
     private Company company;
 
+    private boolean favorite=false;
+
     public static class Address implements Serializable{
 
         private String street;
@@ -122,6 +124,14 @@ public class User implements Serializable {
     public String getBs() {
 
         return company.bs;
+    }
+
+    public void setFavorite(boolean fovorite) {
+        this.favorite = fovorite;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
     }
 
 }

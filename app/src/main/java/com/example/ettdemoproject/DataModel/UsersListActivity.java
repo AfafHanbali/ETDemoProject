@@ -1,5 +1,6 @@
 package com.example.ettdemoproject.DataModel;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -42,6 +44,9 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
     public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
     public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
+    public static final String POSITION_KEY = "position";
+    public static final int REQUEST_CODE = 11;
+    private static final String BOOLEAN_KEY = "isFavorite";
     private UserInformationActivity userInformationActivity;
 
 
@@ -55,6 +60,16 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
         buildProgressBar();
         fetchFromApi();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            Boolean isFavorite=Boolean.parseBoolean(data.getStringExtra(BOOLEAN_KEY));
+            int position=Integer.parseInt(data.getStringExtra(POSITION_KEY));
+            usersList.get(position).setFavorite(isFavorite);
+            setupAdapter(usersList);
+        }
     }
 
     private void setToolBarOptions(Toolbar toolbar) {
@@ -120,8 +135,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     }
 
     @Override
-    public void onUserClick(User userItem) {
-        userInformationActivity.startScreen(this, userItem);
-
+    public void onUserClick(User userItem, int position) {
+        userInformationActivity.startScreen(this, userItem, position);
     }
 }
