@@ -1,6 +1,6 @@
 package com.example.ettdemoproject.networking;
 
-import com.example.ettdemoproject.User;
+import com.example.ettdemoproject.DataModel.User;
 
 import java.util.List;
 

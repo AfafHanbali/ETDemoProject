@@ -11,18 +11,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/profileToolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/profileToolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                app:titleTextColor="@color/colorWhite" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:titleTextColor="@color/colorWhite" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,11 +48,12 @@
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,7 +64,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginRight="30dp"
                     android:src="@drawable/ic_mail_icon" />
 
                 <TextView
@@ -90,7 +85,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginRight="30dp"
                     android:src="@drawable/ic_phone_icon" />
 
                 <TextView
@@ -112,7 +107,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginRight="30dp"
                     android:src="@drawable/ic_website_icon" />
 
                 <TextView
@@ -133,7 +128,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginRight="30dp"
                     android:src="@drawable/ic_address_icon" />
 
                 <TextView
@@ -154,7 +149,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginRight="30dp"
                     android:src="@drawable/ic_company_icon" />
 
                 <TextView
@@ -165,7 +160,6 @@
 
 
             </LinearLayout>
-
         </LinearLayout>
 
     </LinearLayout>

@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ettdemoproject.R;
-import com.example.ettdemoproject.User;
+import com.example.ettdemoproject.DataModel.User;
 
 import java.util.List;
 

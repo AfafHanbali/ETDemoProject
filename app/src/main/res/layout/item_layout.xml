@@ -13,10 +13,6 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <!-- TODO : pls try to put a text with 60 chars inside email label and let me know how it looks . -->
-    <!-- it got out of the whole item -->
-    <!-- exactly my point , it will distort the layout , pls find a better approach . -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

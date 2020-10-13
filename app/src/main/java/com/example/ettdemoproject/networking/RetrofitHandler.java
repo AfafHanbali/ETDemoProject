@@ -1,5 +1,7 @@
 package com.example.ettdemoproject.networking;
 
+import androidx.annotation.NonNull;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -12,16 +14,12 @@ public class RetrofitHandler {
 
     private static Retrofit retrofit;
 
-    private RetrofitHandler() {
-        retrofit = new Retrofit.Builder()
-                .baseUrl("https://jsonplaceholder.typicode.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
-    public static Retrofit getInstance() {
+    public static Retrofit buildRetrofit(String baseUrl) {
         if (retrofit == null) {
-            RetrofitHandler retrofitHandler = new RetrofitHandler();
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
         }
         return retrofit;
     }

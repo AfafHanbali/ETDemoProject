@@ -1,4 +1,4 @@
-package com.example.ettdemoproject;
+package com.example.ettdemoproject.DataModel;
 
 import java.io.Serializable;
 

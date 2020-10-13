@@ -1,4 +1,4 @@
-package com.example.ettdemoproject;
+package com.example.ettdemoproject.DataModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.UI.UsersAdapter;
 import com.example.ettdemoproject.networking.JsonPlaceHolder;
 import com.example.ettdemoproject.networking.RetrofitHandler;
@@ -36,10 +37,11 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     private RecyclerView listOfUsers;
     private List<User> usersList;
-    private Toolbar toolbar;
+    private Toolbar mainToolbar;
     private ProgressDialog progressDialog;
-    public static final String progressMsgTitle = ("Just a Sec...");
-    public static final String progressMsgContent = ("The List of Users is loading...");
+    public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
+    public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
+    public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
     private UserInformationActivity userInformationActivity;
 
 
@@ -47,9 +49,9 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.mainToolBar);
+        mainToolbar = findViewById(R.id.mainToolBar);
         listOfUsers = findViewById(R.id.rv_users);
-        setToolBarOptions(toolbar);
+        setToolBarOptions(mainToolbar);
         buildProgressBar();
         fetchFromApi();
 
@@ -63,7 +65,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     public void fetchFromApi() {
 
-        Retrofit retrofit = RetrofitHandler.getInstance();
+        Retrofit retrofit = RetrofitHandler.buildRetrofit(BASE_URL);
         JsonPlaceHolder jsonPlaceHolder = retrofit.create(JsonPlaceHolder.class);
         Call<List<User>> call = jsonPlaceHolder.getUsers();
         progressDialog.show();
@@ -112,19 +114,14 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     public void buildProgressBar() {
         progressDialog = new ProgressDialog(this, R.style.progressDialog);
         progressDialog.setMax(100);
-        progressDialog.setMessage(progressMsgContent);
-        progressDialog.setTitle(progressMsgTitle);
+        progressDialog.setMessage(PROGRESS_MSG_CONTENT);
+        progressDialog.setTitle(PROGRESS_MSG_TITLE);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
 
     @Override
-    public void onUserClick(User userList) {
-        //TODO : pls also dont call actvities directly , instead build a public static Intent startActivity inside UserInformationActivity activity .
-        // and let it write/read its own keys .
-
-        userInformationActivity.startUserInfoActivity = new Intent(this, UserInformationActivity.class);
-        userInformationActivity.startUserInfoActivity.putExtra("userListObject", userList);
-        startActivity(userInformationActivity.startUserInfoActivity);
+    public void onUserClick(User userItem) {
+        userInformationActivity.startScreen(this, userItem);
 
     }
 }
