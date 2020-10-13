@@ -18,7 +18,7 @@ public class User implements Serializable {
     private String website;
     private Company company;
 
-    private boolean favorite=false;
+    private boolean isFavorite =false;
 
     public static class Address implements Serializable{
 
@@ -127,11 +127,11 @@ public class User implements Serializable {
     }
 
     public void setFavorite(boolean fovorite) {
-        this.favorite = fovorite;
+        this.isFavorite = fovorite;
     }
 
     public boolean isFavorite() {
-        return favorite;
+        return isFavorite;
     }
 
 }
