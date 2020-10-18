@@ -47,7 +47,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     public static final String POSITION_KEY = "position";
     public static final int REQUEST_CODE = 11;
     private static final String BOOLEAN_KEY = "isFavorite";
-    private UserInformationActivity userInformationActivity;
+    private UserInformationActivity userInformationActivity; //TODO : remove .
 
 
     @Override
@@ -65,15 +65,15 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            Boolean isFavorite=Boolean.parseBoolean(data.getStringExtra(BOOLEAN_KEY));
-            int position=Integer.parseInt(data.getStringExtra(POSITION_KEY));
+            Boolean isFavorite = Boolean.parseBoolean(data.getStringExtra(BOOLEAN_KEY));
+            int position = Integer.parseInt(data.getStringExtra(POSITION_KEY));
             usersList.get(position).setFavorite(isFavorite);
             setupAdapter(usersList);
         }
     }
 
     private void setToolBarOptions(Toolbar toolbar) {
-        toolbar.setTitle("ETDemo Project");
+        toolbar.setTitle("ETDemo Project");// TODO : convention const string .
         toolbar.setTitleTextColor(Color.WHITE);
     }
 
@@ -107,7 +107,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     private void showResponseMsg(Response<List<User>> response) {
         try {
             JSONObject jObjError = new JSONObject(response.errorBody().string());
-            showToast(jObjError.getJSONObject("error").getString("message"));
+            showToast(jObjError.getJSONObject("error").getString("message"));//TODO : might produce NPE .
 
         } catch (Exception e) {
             showToast(e.getMessage());
@@ -136,6 +136,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     @Override
     public void onUserClick(User userItem, int position) {
+        //TODO : use class name to refer to static method .
         userInformationActivity.startScreen(this, userItem, position);
     }
 }

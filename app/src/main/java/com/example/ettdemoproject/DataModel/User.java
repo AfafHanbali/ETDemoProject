@@ -18,9 +18,9 @@ public class User implements Serializable {
     private String website;
     private Company company;
 
-    private boolean isFavorite =false;
+    private boolean isFavorite = false; //TODO : in java , def value for 'boolean' member is false .
 
-    public static class Address implements Serializable{
+    public static class Address implements Serializable {
 
         private String street;
         private String suite;
@@ -31,7 +31,7 @@ public class User implements Serializable {
         public Address() {
         }
 
-        public static class Geo implements Serializable{
+        public static class Geo implements Serializable {
             private double lat;
             private double lng;
 
@@ -41,7 +41,7 @@ public class User implements Serializable {
         }
     }
 
-    public static class Company implements Serializable{
+    public static class Company implements Serializable {
         private String name;
         private String catchPhrase;
         private String bs;
@@ -68,36 +68,42 @@ public class User implements Serializable {
     }
 
     public String getEmail() {
-
         return email;
     }
 
 
     public String getStreet() {
-
+        // TODO : this might produce NullPointerException
         return address.street;
     }
 
     public String getSuite() {
+        // TODO : this might produce NullPointerException
 
         return address.suite;
     }
 
     public String getCity() {
+        // TODO : this might produce NullPointerException
 
         return address.city;
     }
 
     public String getZipCode() {
+        // TODO : this might produce NullPointerException
 
         return address.zipcode;
     }
 
     public double getLatt() {
+        // TODO : this might produce NullPointerException
+
         return address.geo.lat;
     }
 
     public double getLng() {
+        // TODO : this might produce NullPointerException
+
         return address.geo.lng;
     }
 
@@ -112,19 +118,23 @@ public class User implements Serializable {
     }
 
     public String getCompanyName() {
+        // TODO : this might produce NullPointerException
 
         return company.name;
     }
 
     public String getCatchPhrase() {
+        // TODO : this might produce NullPointerException
 
         return company.catchPhrase;
     }
 
     public String getBs() {
+        // TODO : this might produce NullPointerException
 
         return company.bs;
     }
+
 
     public void setFavorite(boolean fovorite) {
         this.isFavorite = fovorite;

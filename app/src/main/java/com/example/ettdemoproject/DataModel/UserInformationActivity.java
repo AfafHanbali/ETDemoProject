@@ -27,6 +27,7 @@ import java.util.Locale;
  * Created on 2020-Oct-5
  */
 
+//TODO : doesnt belong to data model package , move to UI package
 public class UserInformationActivity extends AppCompatActivity {
 
     private TextView nameTextView;
@@ -40,13 +41,15 @@ public class UserInformationActivity extends AppCompatActivity {
     private int position;
     private Toolbar profileToolbar;
     private ImageView userStar;
+
+    //TODO : pls follow convention of having static members at top then class members below grouped by their category ( views , data ..etc )
     public static final String EMAIL_CHOOSER_TITLE = "Choose your Sending Application:";
     public static final String USER_KEY = "userItem";
     public static final String POSITION_KEY = "position";
-    public static final int REQUEST_CODE = 11;
+    public static final int REQUEST_CODE = 11; // TODO : request code is for the sending activity to store/hold not the receiving one .
     private static final String BOOLEAN_KEY = "isFavorite";
     private String url;
-    private Intent implicitIntent;
+    private Intent implicitIntent; // TODO : no need to have it stored here .
 
     public static void startScreen(Activity srcActivity, User userItem, int position) {
         Intent intent = new Intent(srcActivity, UserInformationActivity.class);
@@ -60,6 +63,7 @@ public class UserInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_information);
+        // TODO : pls split into methods ( bindViews() , setupListeners() ..etc )
         profileToolbar = findViewById(R.id.profileToolBar);
         setToolBarOptions(profileToolbar);
         readIntent();
@@ -75,6 +79,8 @@ public class UserInformationActivity extends AppCompatActivity {
         addressTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO : convention const string .
+                //TODO : what if you have null latt/long ?
                 url = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", user.getLatt(), user.getLng());
                 startImplicitIntent(url);
             }
@@ -83,6 +89,7 @@ public class UserInformationActivity extends AppCompatActivity {
         websiteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO : convention const string .
                 url = "http://" + user.getWebsite();
                 startImplicitIntent(url);
             }
@@ -120,18 +127,21 @@ public class UserInformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(USER_KEY)) {
             user = (User) intent.getSerializableExtra(USER_KEY);
+            //TODO : this might produce null pointer since u dont check for position key .
             position = Integer.parseInt(intent.getStringExtra(POSITION_KEY));
         } else {
             finish();
+            //TODO : exit will terminate the whole app process . just use finish
             System.exit(0);
         }
     }
 
     private void setToolBarOptions(Toolbar toolbar) {
-        toolbar.setTitle("UserData");
+
+        toolbar.setTitle("UserData");//TODO :  const convention
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.back_arrow);
-
+        
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +157,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
     private void setFieldsText() {
 
-        SpannableString direction = new SpannableString("Directions Here");
+        SpannableString direction = new SpannableString("Directions Here"); //TODO : const string , convention
         direction.setSpan(new UnderlineSpan(), 0, direction.length(), 0);
 
         nameTextView.setText(user.getName());
@@ -155,11 +165,11 @@ public class UserInformationActivity extends AppCompatActivity {
         phoneTextView.setText(user.getPhone());
         emailTextView.setPaintFlags(emailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         emailTextView.setText(user.getEmail());
-        addressTextView.setText(user.getStreet() + "'" + user.getSuite() + "\n" + user.getCity() + "'" + user.getZipCode() + "\n");
+        addressTextView.setText(user.getStreet() + "'" + user.getSuite() + "\n" + user.getCity() + "'" + user.getZipCode() + "\n");//TODO : cant concat on set
         addressTextView.append(direction);
         websiteTextView.setPaintFlags(emailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         websiteTextView.setText(user.getWebsite());
-        companyTextView.setText(user.getCompanyName() + "\n" + user.getCatchPhrase() + "\n" + user.getBs());
+        companyTextView.setText(user.getCompanyName() + "\n" + user.getCatchPhrase() + "\n" + user.getBs());//TODO : cant concat on set .
 
     }
 

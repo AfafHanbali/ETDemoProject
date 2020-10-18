@@ -43,14 +43,15 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.usernameTextView.setText(usersList.get(position).getUsername());
+        holder.usernameTextView.setText(usersList.get(position).getUsername()); //TODO : get object instance first & then try accessing its methods
         holder.emailTextView.setText(usersList.get(position).getEmail());
-        if(!usersList.get(position).isFavorite()) {
+        if (!usersList.get(position).isFavorite()) {
             holder.userStar.setImageResource(R.drawable.ic_star_border_24dp);
-        }
-        else{
+        } else {
             holder.userStar.setImageResource(R.drawable.ic_star_24dp);
         }
+
+        //TODO : try to set listener here since you already have an access to object instance .
     }
 
     @Override
@@ -68,7 +69,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             super(itemView);
             usernameTextView = itemView.findViewById(R.id.tv_username);
             emailTextView = itemView.findViewById(R.id.tv_email);
-            userStar=itemView.findViewById(R.id.iv_listStar);
+            userStar = itemView.findViewById(R.id.iv_listStar);
             this.onUserListener = onUserListener;
             itemView.setOnClickListener(this);
 

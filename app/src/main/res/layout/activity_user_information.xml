@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
 
+    <!-- TODO : direct child of scroll must wrap its height to allow scrolling    -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,9 +29,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_gravity="center"
                 android:src="@mipmap/ic_launcher_circle" />
 
             <ImageView
@@ -38,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                />
+                android:src="@drawable/ic_star_24dp" />
 
 
             <TextView
@@ -48,6 +49,7 @@
                 android:layout_gravity="center"
                 android:text="TextView" />
 
+            <!--   TODO : naming          -->
             <TextView
                 android:id="@+id/tv_username2"
                 android:layout_width="wrap_content"
@@ -61,8 +63,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
 
             <LinearLayout
@@ -76,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
                     android:src="@drawable/ic_mail_icon" />
-
+                <!--   TODO : naming          -->
                 <TextView
                     android:id="@+id/tv_email2"
                     android:layout_width="wrap_content"

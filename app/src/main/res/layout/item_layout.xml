@@ -13,6 +13,9 @@
     android:orientation="vertical"
     android:padding="10dp">
 
+    <!--   TODO : as agreed pls remove unneeded labels           -->
+    <!--   TODO : just name ,  email (smaller font) below each other  and fav button at the end        -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,11 +44,12 @@
 
     </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_listStar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+    <ImageView
+        android:id="@+id/iv_listStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star_24dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
