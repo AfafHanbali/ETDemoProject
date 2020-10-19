@@ -5,78 +5,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_margin="10dp"
     android:background="@drawable/layout_border"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="10dp">
 
-    <!--   TODO : as agreed pls remove unneeded labels           -->
-    <!--   TODO : just name ,  email (smaller font) below each other  and fav button at the end        -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/label_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:padding="10dp"
-            android:text="@string/username"
-            android:textAlignment="center"
-            android:textColor="#27764A" />
+    <Button
+        android:id="@+id/favButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:background="@drawable/ic_star_border_black_24dp"
+        />
 
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/textview_border"
             android:padding="10dp"
             android:text="TextView"
+            android:textSize="20dp"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000" />
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv_listStar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_star_24dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/label_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:padding="10dp"
-            android:text="@string/email"
-            android:textAlignment="center"
-            android:textColor="#27764A" />
 
 
         <TextView
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/textview_border"
             android:padding="10dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="#000" />
 
-    </LinearLayout>
 
 </LinearLayout>

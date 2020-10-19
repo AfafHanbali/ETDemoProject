@@ -1,23 +1,7 @@
 <resources>
     <string name="app_name">ETDemoProject</string>
-    <string name="api">users</string>
-    <string name="username">Username: </string>
-    <string name="email">Email: </string>
-    <string name="id">ID: </string>
-    <string name="name">Name: </string>
-    <string name="phone">Phone: </string>
-    <string name="website">Website: </string>
-    <string name="address">Address: </string>
-    <string name="street">Street: </string>
-    <string name="suite">Suite: </string>
-    <string name="city">City: </string>
-    <string name="zipCode">ZipCode: </string>
-    <string name="geo">Geo: </string>
-    <string name="lat">LAT: </string>
-    <string name="lng">LNG: </string>
-    <string name="company">Company: </string>
-    <string name="companyName">Name: </string>
-    <string name="catchPhrase">CatchPhrase: </string>
-    <string name="bs">Bs: </string>
+    <string name="fullAddress">%1$s\'%2$s\n%3$s\'%4$s\n</string>
+    <string name="companyDetails">%1$s\n%2$s\n%3$s</string>
 
 </resources>
+

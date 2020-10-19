@@ -3,14 +3,17 @@ package com.example.ettdemoproject.UI;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ettdemoproject.MessageEvent;
 import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.DataModel.User;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -24,6 +27,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     private List<User> usersList;
     private OnUserListener onUserListener;
+    private User userObj;
 
     public UsersAdapter(List<User> usersList, OnUserListener onUserListener) {
         this.usersList = usersList;
@@ -43,16 +47,32 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.usernameTextView.setText(usersList.get(position).getUsername()); //TODO : get object instance first & then try accessing its methods
-        holder.emailTextView.setText(usersList.get(position).getEmail());
-        if (!usersList.get(position).isFavorite()) {
-            holder.userStar.setImageResource(R.drawable.ic_star_border_24dp);
+        userObj = usersList.get(position);
+        holder.usernameTextView.setText(userObj.getUsername());
+        holder.emailTextView.setText(userObj.getEmail());
+        if (!userObj.isFavorite()) {
+            holder.favButton.setBackgroundResource(R.drawable.ic_star_border_black_24dp);
         } else {
-            holder.userStar.setImageResource(R.drawable.ic_star_24dp);
+            holder.favButton.setBackgroundResource(R.drawable.ic_star_black_24dp);
         }
 
-        //TODO : try to set listener here since you already have an access to object instance .
+        // I didn't use the userObj instance in the click event because I want to set the userlist flag directly
+        // also, is it okay to use the bus event from both screens? to solve this problem
+        holder.favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (usersList.get(position).isFavorite()) {
+                    holder.favButton.setBackgroundResource(R.drawable.ic_star_border_black_24dp);
+                    usersList.get(position).setFavorite(false);
+                } else {
+                    holder.favButton.setBackgroundResource(R.drawable.ic_star_black_24dp);
+                    usersList.get(position).setFavorite(true);
+
+                }
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -62,29 +82,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView usernameTextView;
         TextView emailTextView;
-        ImageView userStar;
+        Button favButton;
         OnUserListener onUserListener;
 
         public ViewHolder(@NonNull View itemView, OnUserListener onUserListener) {
             super(itemView);
             usernameTextView = itemView.findViewById(R.id.tv_username);
             emailTextView = itemView.findViewById(R.id.tv_email);
-            userStar = itemView.findViewById(R.id.iv_listStar);
+            favButton = itemView.findViewById(R.id.favButton);
             this.onUserListener = onUserListener;
             itemView.setOnClickListener(this);
-
-            userStar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (usersList.get(getAdapterPosition()).isFavorite()) {
-                        userStar.setImageResource(R.drawable.ic_star_border_24dp);
-                        usersList.get(getAdapterPosition()).setFavorite(false);
-                    } else {
-                        userStar.setImageResource(R.drawable.ic_star_24dp);
-                        usersList.get(getAdapterPosition()).setFavorite(true);
-                    }
-                }
-            });
         }
 
         @Override
@@ -95,6 +102,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     }
 
     public interface OnUserListener {
-        void onUserClick(User userList, int position);
+        void onUserClick(User userItem, int position);
     }
 }

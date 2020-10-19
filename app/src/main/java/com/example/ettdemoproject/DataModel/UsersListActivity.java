@@ -1,24 +1,26 @@
 package com.example.ettdemoproject.DataModel;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.ettdemoproject.MessageEvent;
 import com.example.ettdemoproject.R;
+import com.example.ettdemoproject.UI.UserInformationActivity;
 import com.example.ettdemoproject.UI.UsersAdapter;
 import com.example.ettdemoproject.networking.JsonPlaceHolder;
 import com.example.ettdemoproject.networking.RetrofitHandler;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -36,18 +38,16 @@ import retrofit2.Retrofit;
 
 public class UsersListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
 
+    public static final String APP_TITLE = "ETDemo Project";
+    public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
+    public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
+    public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
+
 
     private RecyclerView listOfUsers;
     private List<User> usersList;
     private Toolbar mainToolbar;
     private ProgressDialog progressDialog;
-    public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
-    public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
-    public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
-    public static final String POSITION_KEY = "position";
-    public static final int REQUEST_CODE = 11;
-    private static final String BOOLEAN_KEY = "isFavorite";
-    private UserInformationActivity userInformationActivity; //TODO : remove .
 
 
     @Override
@@ -63,17 +63,31 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            Boolean isFavorite = Boolean.parseBoolean(data.getStringExtra(BOOLEAN_KEY));
-            int position = Integer.parseInt(data.getStringExtra(POSITION_KEY));
-            usersList.get(position).setFavorite(isFavorite);
-            setupAdapter(usersList);
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        usersList.get(event.position).setFavorite(event.isFav);
+        setupAdapter(usersList);
+
+        MessageEvent stickyEvent = EventBus.getDefault().getStickyEvent(MessageEvent.class);
+        if(stickyEvent != null) {
+            EventBus.getDefault().removeStickyEvent(stickyEvent);
         }
     }
 
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+
     private void setToolBarOptions(Toolbar toolbar) {
-        toolbar.setTitle("ETDemo Project");// TODO : convention const string .
+        toolbar.setTitle(APP_TITLE);
         toolbar.setTitleTextColor(Color.WHITE);
     }
 
@@ -106,8 +120,12 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     private void showResponseMsg(Response<List<User>> response) {
         try {
-            JSONObject jObjError = new JSONObject(response.errorBody().string());
-            showToast(jObjError.getJSONObject("error").getString("message"));//TODO : might produce NPE .
+            if (response.errorBody() != null) {
+                JSONObject jObjError = new JSONObject(response.errorBody().string());
+                showToast(jObjError.getJSONObject("error").getString("isFav"));
+            } else {
+                finish();
+            }
 
         } catch (Exception e) {
             showToast(e.getMessage());
@@ -136,7 +154,6 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     @Override
     public void onUserClick(User userItem, int position) {
-        //TODO : use class name to refer to static method .
-        userInformationActivity.startScreen(this, userItem, position);
+        UserInformationActivity.startScreen(this, userItem, position);
     }
 }

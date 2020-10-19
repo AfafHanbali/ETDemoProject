@@ -5,11 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-    <!-- TODO : direct child of scroll must wrap its height to allow scrolling    -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -23,35 +21,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
+            <Button
+                android:id="@+id/userFavButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_star_border_black_24dp"
+                />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:src="@mipmap/ic_launcher_circle" />
-
-            <ImageView
-                android:id="@+id/iv_itemStar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_star_24dp" />
+                android:src="@mipmap/ic_launcher" />
 
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="TextView" />
 
-            <!--   TODO : naming          -->
             <TextView
-                android:id="@+id/tv_username2"
+                android:id="@+id/tv_userUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -78,9 +76,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
                     android:src="@drawable/ic_mail_icon" />
-                <!--   TODO : naming          -->
                 <TextView
-                    android:id="@+id/tv_email2"
+                    android:id="@+id/tv_userEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
@@ -101,7 +98,7 @@
                     android:src="@drawable/ic_phone_icon" />
 
                 <TextView
-                    android:id="@+id/tv_phone"
+                    android:id="@+id/tv_userPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
@@ -123,7 +120,7 @@
                     android:src="@drawable/ic_website_icon" />
 
                 <TextView
-                    android:id="@+id/tv_website"
+                    android:id="@+id/tv_userWebsite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
@@ -144,7 +141,7 @@
                     android:src="@drawable/ic_address_icon" />
 
                 <TextView
-                    android:id="@+id/tv_address"
+                    android:id="@+id/tv_userAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
@@ -165,7 +162,7 @@
                     android:src="@drawable/ic_company_icon" />
 
                 <TextView
-                    android:id="@+id/tv_company"
+                    android:id="@+id/tv_userCompany"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView" />

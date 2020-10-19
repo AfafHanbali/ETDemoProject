@@ -1,5 +1,7 @@
 package com.example.ettdemoproject.DataModel;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -18,7 +20,7 @@ public class User implements Serializable {
     private String website;
     private Company company;
 
-    private boolean isFavorite = false; //TODO : in java , def value for 'boolean' member is false .
+    private boolean isFavorite;
 
     public static class Address implements Serializable {
 
@@ -32,23 +34,64 @@ public class User implements Serializable {
         }
 
         public static class Geo implements Serializable {
+
             private double lat;
             private double lng;
 
             public Geo() {
             }
 
+            public double getLat() {
+                return lat;
+            }
+
+            public double getLng() {
+                return lng;
+            }
+
+        }
+
+        public String getStreet() {
+            return street;
+        }
+
+        public String getSuite() {
+            return suite;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getZipcode() {
+            return zipcode;
+        }
+
+        public Geo getGeo() {
+            return geo;
         }
     }
 
     public static class Company implements Serializable {
-        private String name;
+        @SerializedName("name")
+        private String companyName;
         private String catchPhrase;
         private String bs;
 
         public Company() {
         }
 
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public String getCatchPhrase() {
+            return catchPhrase;
+        }
+
+        public String getBs() {
+            return bs;
+        }
     }
 
     public User() {
@@ -72,41 +115,6 @@ public class User implements Serializable {
     }
 
 
-    public String getStreet() {
-        // TODO : this might produce NullPointerException
-        return address.street;
-    }
-
-    public String getSuite() {
-        // TODO : this might produce NullPointerException
-
-        return address.suite;
-    }
-
-    public String getCity() {
-        // TODO : this might produce NullPointerException
-
-        return address.city;
-    }
-
-    public String getZipCode() {
-        // TODO : this might produce NullPointerException
-
-        return address.zipcode;
-    }
-
-    public double getLatt() {
-        // TODO : this might produce NullPointerException
-
-        return address.geo.lat;
-    }
-
-    public double getLng() {
-        // TODO : this might produce NullPointerException
-
-        return address.geo.lng;
-    }
-
     public String getPhone() {
 
         return phone;
@@ -117,27 +125,16 @@ public class User implements Serializable {
         return website;
     }
 
-    public String getCompanyName() {
-        // TODO : this might produce NullPointerException
-
-        return company.name;
+    public Address getAddress() {
+        return address;
     }
 
-    public String getCatchPhrase() {
-        // TODO : this might produce NullPointerException
-
-        return company.catchPhrase;
+    public Company getCompany() {
+        return company;
     }
 
-    public String getBs() {
-        // TODO : this might produce NullPointerException
-
-        return company.bs;
-    }
-
-
-    public void setFavorite(boolean fovorite) {
-        this.isFavorite = fovorite;
+    public void setFavorite(boolean favorite) {
+        this.isFavorite = favorite;
     }
 
     public boolean isFavorite() {
