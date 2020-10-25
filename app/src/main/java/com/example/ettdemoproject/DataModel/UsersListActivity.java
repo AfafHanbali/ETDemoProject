@@ -36,6 +36,7 @@ import retrofit2.Retrofit;
  * Created on 2020-Oct-5
  */
 
+//TODO : move to UI package , its an activity .
 public class UsersListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
 
     public static final String APP_TITLE = "ETDemo Project";
@@ -71,10 +72,11 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         usersList.get(event.position).setFavorite(event.isFav);
+        // TODO : instead of populating the whole adapter , pls get item position from list and call notifyItemChanged(position)
         setupAdapter(usersList);
 
         MessageEvent stickyEvent = EventBus.getDefault().getStickyEvent(MessageEvent.class);
-        if(stickyEvent != null) {
+        if (stickyEvent != null) {
             EventBus.getDefault().removeStickyEvent(stickyEvent);
         }
     }
@@ -122,6 +124,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
         try {
             if (response.errorBody() != null) {
                 JSONObject jObjError = new JSONObject(response.errorBody().string());
+                //TODO : this nested dot query might cause NPE .
                 showToast(jObjError.getJSONObject("error").getString("isFav"));
             } else {
                 finish();
@@ -154,6 +157,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     @Override
     public void onUserClick(User userItem, int position) {
+        // TODO : do we need position here ?
         UserInformationActivity.startScreen(this, userItem, position);
     }
 }

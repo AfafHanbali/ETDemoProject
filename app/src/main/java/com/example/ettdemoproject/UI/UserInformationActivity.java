@@ -79,7 +79,7 @@ public class UserInformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(USER_KEY) && intent.hasExtra(POSITION_KEY)) {
             user = (User) intent.getSerializableExtra(USER_KEY);
-            position = Integer.parseInt(intent.getStringExtra(POSITION_KEY));
+            position = Integer.parseInt(intent.getStringExtra(POSITION_KEY));//TODO  : do we need position here ?
         } else {
             finish();
         }
@@ -103,6 +103,7 @@ public class UserInformationActivity extends AppCompatActivity {
         addressTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO : this nested dot access will cause NPE .
                 if (Double.toString(user.getAddress().getGeo().getLat()) != null && Double.toString(user.getAddress().getGeo().getLng()) != null) {
                     url = String.format(Locale.ENGLISH, MAP_URL + "%f,%f", user.getAddress().getGeo().getLat(), user.getAddress().getGeo().getLng());
                     startImplicitIntent(url);
@@ -136,6 +137,7 @@ public class UserInformationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (user.isFavorite()) {
                     userFavButton.setBackgroundResource(R.drawable.ic_star_border_black_24dp);
+                    //TODO : simply negate the current user isFavorite and post an event with the whole object .
                     sendMsg(false, position);
                 } else {
                     userFavButton.setBackgroundResource(R.drawable.ic_star_black_24dp);
@@ -146,7 +148,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
     }
 
-    private void sendMsg(boolean isFav, int position){
+    private void sendMsg(boolean isFav, int position) {
         EventBus.getDefault().postSticky(new MessageEvent(isFav, position));
     }
 
@@ -156,6 +158,7 @@ public class UserInformationActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.back_arrow);
 
+        // TODO : dont override this behaviour , instead assign using setSupportActionBar(); && call getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,12 +182,12 @@ public class UserInformationActivity extends AppCompatActivity {
         phoneTextView.setText(user.getPhone());
         emailTextView.setPaintFlags(emailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         emailTextView.setText(user.getEmail());
-        String fullAddress = getString(R.string.fullAddress, user.getAddress().getStreet(), user.getAddress().getSuite(), user.getAddress().getCity(), user.getAddress().getZipcode());
+        String fullAddress = getString(R.string.fullAddress, user.getAddress().getStreet(), user.getAddress().getSuite(), user.getAddress().getCity(), user.getAddress().getZipcode());//TODO : NPE ALERT
         addressTextView.setText(fullAddress);
         addressTextView.append(direction);
         websiteTextView.setPaintFlags(emailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         websiteTextView.setText(user.getWebsite());
-        String companyDetails = getString(R.string.companyDetails, user.getCompany().getCompanyName(), user.getCompany().getCatchPhrase(), user.getCompany().getBs());
+        String companyDetails = getString(R.string.companyDetails, user.getCompany().getCompanyName(), user.getCompany().getCatchPhrase(), user.getCompany().getBs());//TODO : NPE ALERT
         companyTextView.setText(companyDetails);
 
     }
