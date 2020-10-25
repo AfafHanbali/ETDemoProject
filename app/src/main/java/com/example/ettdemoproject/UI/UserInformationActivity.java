@@ -18,12 +18,10 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ettdemoproject.DataModel.User;
-import com.example.ettdemoproject.MessageEvent;
+import com.example.ettdemoproject.networking.FavClickEvent;
 import com.example.ettdemoproject.R;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Locale;
 
@@ -38,11 +36,15 @@ public class UserInformationActivity extends AppCompatActivity {
     public static final String APP_TITLE = "UserData";
     public static final String EMAIL_CHOOSER_TITLE = "Choose your Sending Application:";
     public static final String USER_KEY = "userItem";
-    public static final String POSITION_KEY = "position";
     public static final String DIRECTIONS_MAPPER = "Directions Here";
     public static final String WEBSITE_PROTOCOL = "http://";
     public static final String MAP_URL = "http://maps.google.com/maps?q=loc:";
     public static final String MAP_NOT_FOUND_ALERT = "Can't find location";
+    private static final String WEBSITE_NOT_FOUND = "Can't open the website";
+    private static final String EMAIL_NOT_FOUND = "Can't reach the email";
+    private static final String ADDRESS_NOT_FOUND = "User's address isn't specified.";
+    private static final String COMPANY_NOT_FOUND = "User's company isn't specified.";
+    private Toolbar profileToolbar;
     private TextView nameTextView;
     private TextView userNameTextView;
     private TextView emailTextView;
@@ -51,16 +53,13 @@ public class UserInformationActivity extends AppCompatActivity {
     private TextView addressTextView;
     private TextView companyTextView;
     private User user;
-    private int position;
-    private Toolbar profileToolbar;
     private Button userFavButton;
 
     private String url;
 
-    public static void startScreen(Activity srcActivity, User userItem, int position) {
+    public static void startScreen(Activity srcActivity, User userItem) {
         Intent intent = new Intent(srcActivity, UserInformationActivity.class);
         intent.putExtra(USER_KEY, userItem);
-        intent.putExtra(POSITION_KEY, Integer.toString(position));
         srcActivity.startActivity(intent);
     }
 
@@ -77,9 +76,8 @@ public class UserInformationActivity extends AppCompatActivity {
 
     private void readIntent() {
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(USER_KEY) && intent.hasExtra(POSITION_KEY)) {
+        if (intent != null && intent.hasExtra(USER_KEY)) {
             user = (User) intent.getSerializableExtra(USER_KEY);
-            position = Integer.parseInt(intent.getStringExtra(POSITION_KEY));//TODO  : do we need position here ?
         } else {
             finish();
         }
@@ -103,13 +101,24 @@ public class UserInformationActivity extends AppCompatActivity {
         addressTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO : this nested dot access will cause NPE .
-                if (Double.toString(user.getAddress().getGeo().getLat()) != null && Double.toString(user.getAddress().getGeo().getLng()) != null) {
-                    url = String.format(Locale.ENGLISH, MAP_URL + "%f,%f", user.getAddress().getGeo().getLat(), user.getAddress().getGeo().getLng());
-                    startImplicitIntent(url);
+
+                if (user.getAddress() != null) {
+                    User.Address.Geo geo = user.getAddress().getGeo();
+                    if (geo != null) {
+                        String latitude = Double.toString(user.getAddress().getGeo().getLat());
+                        String longitude = Double.toString(user.getAddress().getGeo().getLng());
+                        if (latitude != null && longitude != null) {
+                            url = String.format(Locale.ENGLISH, MAP_URL + "%f,%f", user.getAddress().getGeo().getLat(), user.getAddress().getGeo().getLng());
+                            startImplicitIntent(url);
+                        } else {
+                            showToast(MAP_NOT_FOUND_ALERT);
+                        }
+                    } else {
+                        showToast(MAP_NOT_FOUND_ALERT);
+
+                    }
                 } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), MAP_NOT_FOUND_ALERT, Toast.LENGTH_LONG);
-                    toast.show();
+                    showToast(MAP_NOT_FOUND_ALERT);
                 }
             }
         });
@@ -117,18 +126,28 @@ public class UserInformationActivity extends AppCompatActivity {
         websiteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                url = WEBSITE_PROTOCOL + user.getWebsite();
-                startImplicitIntent(url);
+                String website = user.getWebsite();
+                if (website != null) {
+                    url = WEBSITE_PROTOCOL + website;
+                    startImplicitIntent(url);
+                } else {
+                    showToast(WEBSITE_NOT_FOUND);
+                }
             }
         });
 
         emailTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent implicitIntent = new Intent(Intent.ACTION_SEND);
-                implicitIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{user.getEmail()});
-                implicitIntent.setType("isFav/rfc822");
-                startActivity(Intent.createChooser(implicitIntent, EMAIL_CHOOSER_TITLE));
+                String email = user.getEmail();
+                if (email != null) {
+                    Intent implicitIntent = new Intent(Intent.ACTION_SEND);
+                    implicitIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+                    implicitIntent.setType("isFav/rfc822");
+                    startActivity(Intent.createChooser(implicitIntent, EMAIL_CHOOSER_TITLE));
+                } else {
+                    showToast(EMAIL_NOT_FOUND);
+                }
             }
         });
 
@@ -137,19 +156,32 @@ public class UserInformationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (user.isFavorite()) {
                     userFavButton.setBackgroundResource(R.drawable.ic_star_border_black_24dp);
-                    //TODO : simply negate the current user isFavorite and post an event with the whole object .
-                    sendMsg(false, position);
+                    user.setFavorite(false);
+                    favoriteUser(user);
                 } else {
                     userFavButton.setBackgroundResource(R.drawable.ic_star_black_24dp);
-                    sendMsg(true, position);
+                    user.setFavorite(true);
+                    favoriteUser(user);
                 }
             }
         });
 
     }
 
-    private void sendMsg(boolean isFav, int position) {
-        EventBus.getDefault().postSticky(new MessageEvent(isFav, position));
+    private void showToast(String msg) {
+        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    private void favoriteUser(User user) {
+        EventBus.getDefault().postSticky(new FavClickEvent(user));
+
+    }
+
+
+    private void startImplicitIntent(String Url) {
+        Intent implicitIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Url));
+        startActivity(implicitIntent);
     }
 
     private void setToolBarOptions(Toolbar toolbar) {
@@ -159,17 +191,14 @@ public class UserInformationActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.back_arrow);
 
         // TODO : dont override this behaviour , instead assign using setSupportActionBar(); && call getSupportActionBar().setHomeButtonEnabled(true);
+        // I tried it, it keeps refreshing the main activity as if no data was stored before
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-    }
-
-    private void startImplicitIntent(String Url) {
-        Intent implicitIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Url));
-        startActivity(implicitIntent);
     }
 
     private void setFieldsText() {
@@ -182,13 +211,29 @@ public class UserInformationActivity extends AppCompatActivity {
         phoneTextView.setText(user.getPhone());
         emailTextView.setPaintFlags(emailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         emailTextView.setText(user.getEmail());
-        String fullAddress = getString(R.string.fullAddress, user.getAddress().getStreet(), user.getAddress().getSuite(), user.getAddress().getCity(), user.getAddress().getZipcode());//TODO : NPE ALERT
-        addressTextView.setText(fullAddress);
-        addressTextView.append(direction);
+        if (user.getAddress() != null) {
+            String street = user.getAddress().getStreet();
+            String suite = user.getAddress().getSuite();
+            String city = user.getAddress().getCity();
+            String zipCode = user.getAddress().getZipcode();
+            String fullAddress = getString(R.string.fullAddress, street, suite, city, zipCode);
+            addressTextView.setText(fullAddress);
+            addressTextView.append(direction);
+        } else {
+            addressTextView.setText(ADDRESS_NOT_FOUND);
+        }
         websiteTextView.setPaintFlags(emailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         websiteTextView.setText(user.getWebsite());
-        String companyDetails = getString(R.string.companyDetails, user.getCompany().getCompanyName(), user.getCompany().getCatchPhrase(), user.getCompany().getBs());//TODO : NPE ALERT
-        companyTextView.setText(companyDetails);
+        if (user.getCompany() != null) {
+            String companyName = user.getCompany().getCompanyName();
+            String catchPhrase = user.getCompany().getCatchPhrase();
+            String bs = user.getCompany().getBs();
+            String companyDetails = getString(R.string.companyDetails, companyName, catchPhrase, bs);
+            companyTextView.setText(companyDetails);
+        } else {
+            companyTextView.setText(COMPANY_NOT_FOUND);
+
+        }
 
     }
 

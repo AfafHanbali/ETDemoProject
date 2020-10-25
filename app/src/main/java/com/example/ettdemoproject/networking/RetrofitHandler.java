@@ -2,7 +2,14 @@ package com.example.ettdemoproject.networking;
 
 import androidx.annotation.NonNull;
 
+import com.example.ettdemoproject.DataModel.User;
+
+import java.util.List;
+
+import io.reactivex.Single;
+import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -12,15 +19,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHandler {
 
-    private static Retrofit retrofit;
+    private static RetrofitHandler retrofitHandler;
+    private JsonPlaceHolder jsonPlaceHolder;
 
-    public static Retrofit buildRetrofit(String baseUrl) {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+    public RetrofitHandler(String baseUrl) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        jsonPlaceHolder = retrofit.create(JsonPlaceHolder.class);
+    }
+
+    public static RetrofitHandler getInstance(String url) {
+        if (retrofitHandler == null) {
+            retrofitHandler = new RetrofitHandler(url);
         }
-        return retrofit;
+        return retrofitHandler;
+    }
+
+    public Single<List<User>> getUsers(){
+        return jsonPlaceHolder.getUsers();
     }
 }

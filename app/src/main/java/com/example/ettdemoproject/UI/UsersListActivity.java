@@ -1,4 +1,4 @@
-package com.example.ettdemoproject.DataModel;
+package com.example.ettdemoproject.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,24 +11,24 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.ettdemoproject.MessageEvent;
+import com.example.ettdemoproject.DataModel.User;
+import com.example.ettdemoproject.networking.FavClickEvent;
 import com.example.ettdemoproject.R;
-import com.example.ettdemoproject.UI.UserInformationActivity;
-import com.example.ettdemoproject.UI.UsersAdapter;
-import com.example.ettdemoproject.networking.JsonPlaceHolder;
 import com.example.ettdemoproject.networking.RetrofitHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONObject;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -36,7 +36,6 @@ import retrofit2.Retrofit;
  * Created on 2020-Oct-5
  */
 
-//TODO : move to UI package , its an activity .
 public class UsersListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
 
     public static final String APP_TITLE = "ETDemo Project";
@@ -49,6 +48,8 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     private List<User> usersList;
     private Toolbar mainToolbar;
     private ProgressDialog progressDialog;
+    private UsersAdapter usersAdapter = new UsersAdapter(this);
+    private CompositeDisposable disposables = new CompositeDisposable();
 
 
     @Override
@@ -70,12 +71,17 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageEvent event) {
-        usersList.get(event.position).setFavorite(event.isFav);
-        // TODO : instead of populating the whole adapter , pls get item position from list and call notifyItemChanged(position)
-        setupAdapter(usersList);
+    public void onFavClickEvent(FavClickEvent event) {
+        int i;
+        for (i = 0; i < usersList.size(); i++) {
+            if (usersList.get(i).getId() == event.user.getId()) {
+                break;
+            }
+        }
+        usersList.get(i).setFavorite(event.user.isFavorite());
+        usersAdapter.notifyItemChanged(i);
 
-        MessageEvent stickyEvent = EventBus.getDefault().getStickyEvent(MessageEvent.class);
+        FavClickEvent stickyEvent = EventBus.getDefault().getStickyEvent(FavClickEvent.class);
         if (stickyEvent != null) {
             EventBus.getDefault().removeStickyEvent(stickyEvent);
         }
@@ -96,47 +102,40 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     public void fetchFromApi() {
 
-        Retrofit retrofit = RetrofitHandler.buildRetrofit(BASE_URL);
-        JsonPlaceHolder jsonPlaceHolder = retrofit.create(JsonPlaceHolder.class);
-        Call<List<User>> call = jsonPlaceHolder.getUsers();
+        Single<List<User>> singleObservable = RetrofitHandler.getInstance(BASE_URL).getUsers();
         progressDialog.show();
-        call.enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                progressDialog.dismiss();
-                if (!response.isSuccessful()) {
-                    showResponseMsg(response);
-                }
-                usersList = response.body();
-                setupAdapter(usersList);
-            }
+        singleObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<User>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
 
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable tt) {
-                progressDialog.dismiss();
-                showToast(tt.getMessage());
-            }
-        });
+                    @Override
+                    public void onSuccess(List<User> users) {
+                        progressDialog.dismiss();
+                        usersList = users;
+                        setupAdapter(usersList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        progressDialog.dismiss();
+                        showToast(e.getMessage());
+                    }
+                });
 
     }
 
-    private void showResponseMsg(Response<List<User>> response) {
-        try {
-            if (response.errorBody() != null) {
-                JSONObject jObjError = new JSONObject(response.errorBody().string());
-                //TODO : this nested dot query might cause NPE .
-                showToast(jObjError.getJSONObject("error").getString("isFav"));
-            } else {
-                finish();
-            }
-
-        } catch (Exception e) {
-            showToast(e.getMessage());
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposables.clear();
     }
 
     public void setupAdapter(List<User> usersList) {
-        UsersAdapter usersAdapter = new UsersAdapter(usersList, this);
+        usersAdapter.setUsersList(usersList);
         listOfUsers.setAdapter(usersAdapter);
         listOfUsers.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -156,8 +155,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     }
 
     @Override
-    public void onUserClick(User userItem, int position) {
-        // TODO : do we need position here ?
-        UserInformationActivity.startScreen(this, userItem, position);
+    public void onUserClick(User userItem) {
+        UserInformationActivity.startScreen(this, userItem);
     }
 }

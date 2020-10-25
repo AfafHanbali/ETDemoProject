@@ -9,11 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ettdemoproject.MessageEvent;
 import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.DataModel.User;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -29,10 +26,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private OnUserListener onUserListener;
     private User userObj;
 
-    public UsersAdapter(List<User> usersList, OnUserListener onUserListener) {
-        this.usersList = usersList;
+    public UsersAdapter(OnUserListener onUserListener) {
         this.onUserListener = onUserListener;
 
+    }
+
+    public void setUsersList(List<User> usersList) {
+        this.usersList = usersList;
     }
 
     @NonNull
@@ -56,8 +56,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             holder.favButton.setBackgroundResource(R.drawable.ic_star_black_24dp);
         }
 
-        // I didn't use the userObj instance in the click event because I want to set the userlist flag directly
-        // also, is it okay to use the bus event from both screens? to solve this problem
         holder.favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,12 +94,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            onUserListener.onUserClick(usersList.get(getAdapterPosition()), getAdapterPosition());
+            onUserListener.onUserClick(usersList.get(getAdapterPosition()));
         }
 
     }
 
     public interface OnUserListener {
-        void onUserClick(User userItem, int position);
+        void onUserClick(User userItem);
     }
 }

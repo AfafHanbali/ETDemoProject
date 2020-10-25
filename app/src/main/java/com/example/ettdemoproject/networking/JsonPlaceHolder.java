@@ -4,6 +4,7 @@ import com.example.ettdemoproject.DataModel.User;
 
 import java.util.List;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -17,7 +18,7 @@ public interface JsonPlaceHolder {
     public String api = "users";
 
     @GET(api)
-    Call<List<User>> getUsers();
+    Single<List<User>> getUsers();
 
 
 }

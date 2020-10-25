@@ -1,0 +1,18 @@
+package com.example.ettdemoproject.networking;
+
+import com.example.ettdemoproject.DataModel.User;
+
+/**
+ * @author : Afaf Hanbali
+ * Created on 2020-Oct-5
+ */
+
+public class FavClickEvent {
+
+    public final User user;
+
+    public FavClickEvent(User user) {
+        this.user = user;
+    }
+
+}
