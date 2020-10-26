@@ -25,6 +25,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 /**
  * @author : Afaf Hanbali
@@ -44,17 +47,27 @@ public class UserInformationActivity extends AppCompatActivity {
     private static final String EMAIL_NOT_FOUND = "Can't reach the email";
     private static final String ADDRESS_NOT_FOUND = "User's address isn't specified.";
     private static final String COMPANY_NOT_FOUND = "User's company isn't specified.";
-    private Toolbar profileToolbar;
-    private TextView nameTextView;
-    private TextView userNameTextView;
-    private TextView emailTextView;
-    private TextView phoneTextView;
-    private TextView websiteTextView;
-    private TextView addressTextView;
-    private TextView companyTextView;
-    private User user;
-    private Button userFavButton;
 
+    @BindView(R.id.profileToolBar)
+    Toolbar profileToolbar;
+    @BindView(R.id.tv_userName)
+    TextView nameTextView;
+    @BindView(R.id.tv_userUsername)
+    TextView userNameTextView;
+    @BindView(R.id.tv_userEmail)
+    TextView emailTextView;
+    @BindView(R.id.tv_userPhone)
+    TextView phoneTextView;
+    @BindView(R.id.tv_userWebsite)
+    TextView websiteTextView;
+    @BindView(R.id.tv_userAddress)
+    TextView addressTextView;
+    @BindView(R.id.tv_userCompany)
+    TextView companyTextView;
+    @BindView(R.id.userFavButton)
+    Button userFavButton;
+
+    private User user;
     private String url;
 
     public static void startScreen(Activity srcActivity, User userItem) {
@@ -67,8 +80,9 @@ public class UserInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_information);
+        ButterKnife.bind(this);
         readIntent();
-        bindViews();
+        setToolBarOptions(profileToolbar);
         setupListeners();
         setFieldsText();
         setFieldsResources();
@@ -81,19 +95,6 @@ public class UserInformationActivity extends AppCompatActivity {
         } else {
             finish();
         }
-    }
-
-    private void bindViews() {
-        profileToolbar = findViewById(R.id.profileToolBar);
-        setToolBarOptions(profileToolbar);
-        nameTextView = findViewById(R.id.tv_userName);
-        userNameTextView = findViewById(R.id.tv_userUsername);
-        emailTextView = findViewById(R.id.tv_userEmail);
-        addressTextView = findViewById(R.id.tv_userAddress);
-        phoneTextView = findViewById(R.id.tv_userPhone);
-        websiteTextView = findViewById(R.id.tv_userWebsite);
-        companyTextView = findViewById(R.id.tv_userCompany);
-        userFavButton = findViewById(R.id.userFavButton);
     }
 
     private void setupListeners() {

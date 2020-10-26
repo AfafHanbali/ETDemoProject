@@ -22,6 +22,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,10 +45,11 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
     public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
 
-
-    private RecyclerView listOfUsers;
+    @BindView(R.id.rv_users)
+    RecyclerView listOfUsers;
     private List<User> usersList;
-    private Toolbar mainToolbar;
+    @BindView(R.id.mainToolBar)
+    Toolbar mainToolbar;
     private ProgressDialog progressDialog;
     private UsersAdapter usersAdapter = new UsersAdapter(this);
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -56,8 +59,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainToolbar = findViewById(R.id.mainToolBar);
-        listOfUsers = findViewById(R.id.rv_users);
+        ButterKnife.bind(this);
         setToolBarOptions(mainToolbar);
         buildProgressBar();
         fetchFromApi();

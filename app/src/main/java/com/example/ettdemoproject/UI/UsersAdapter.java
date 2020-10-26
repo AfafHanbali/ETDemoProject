@@ -14,6 +14,9 @@ import com.example.ettdemoproject.DataModel.User;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
@@ -38,6 +41,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_layout, parent, false);
         return new ViewHolder(view, onUserListener);
@@ -78,16 +82,17 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.tv_username)
         TextView usernameTextView;
+        @BindView(R.id.tv_email)
         TextView emailTextView;
+        @BindView(R.id.favButton)
         Button favButton;
         OnUserListener onUserListener;
 
         public ViewHolder(@NonNull View itemView, OnUserListener onUserListener) {
             super(itemView);
-            usernameTextView = itemView.findViewById(R.id.tv_username);
-            emailTextView = itemView.findViewById(R.id.tv_email);
-            favButton = itemView.findViewById(R.id.favButton);
+            ButterKnife.bind(this, itemView);
             this.onUserListener = onUserListener;
             itemView.setOnClickListener(this);
         }
