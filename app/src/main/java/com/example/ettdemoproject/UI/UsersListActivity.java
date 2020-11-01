@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ettdemoproject.DataModel.User;
+import com.example.ettdemoproject.Presenters.UserInformationActivityPresenter;
+import com.example.ettdemoproject.Presenters.UsersListActivityPresenter;
 import com.example.ettdemoproject.networking.FavClickEvent;
 import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.networking.RetrofitHandler;
@@ -38,7 +40,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created on 2020-Oct-5
  */
 
-public class UsersListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener {
+public class UsersListActivity extends AppCompatActivity implements UsersAdapter.OnUserListener, UsersListActivityPresenter.View {
 
     public static final String APP_TITLE = "ETDemo Project";
     public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
@@ -52,6 +54,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     Toolbar mainToolbar;
     private ProgressDialog progressDialog;
     private UsersAdapter usersAdapter = new UsersAdapter(this);
+    private UsersListActivityPresenter presenter;
     private CompositeDisposable disposables = new CompositeDisposable();
 
 
@@ -107,7 +110,6 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     public void fetchFromApi() {
 
         Single<List<User>> singleObservable = RetrofitHandler.getInstance(BASE_URL).getUsers();
-        progressDialog.show();
         singleObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<User>>() {
@@ -141,6 +143,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
     public void setupAdapter(List<User> usersList) {
         usersAdapter.setUsersList(usersList);
         listOfUsers.setAdapter(usersAdapter);
+        presenter = new UsersListActivityPresenter(this, usersList);
         listOfUsers.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -156,11 +159,11 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
         progressDialog.setMessage(PROGRESS_MSG_CONTENT);
         progressDialog.setTitle(PROGRESS_MSG_TITLE);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
     }
 
     @Override
     public void onUserClick(User userItem) {
-
         UserInformationActivity.startScreen(this, userItem);
     }
 }

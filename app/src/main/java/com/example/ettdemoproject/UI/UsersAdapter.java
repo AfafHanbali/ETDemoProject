@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ettdemoproject.Presenters.UsersListActivityPresenter;
 import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.DataModel.User;
 
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
  * Created on 2020-Oct-5
  */
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements UsersListActivityPresenter.View {
 
 
     private List<User> usersList;

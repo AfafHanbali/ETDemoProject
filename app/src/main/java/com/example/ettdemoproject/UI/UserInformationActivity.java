@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ettdemoproject.DataModel.User;
+import com.example.ettdemoproject.Presenters.UserInformationActivityPresenter;
 import com.example.ettdemoproject.networking.FavClickEvent;
 import com.example.ettdemoproject.R;
 
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
  * Created on 2020-Oct-5
  */
 
-public class UserInformationActivity extends AppCompatActivity {
+public class UserInformationActivity extends AppCompatActivity implements UserInformationActivityPresenter.UserInfoView {
 
     public static final String APP_TITLE = "UserData";
     public static final String EMAIL_CHOOSER_TITLE = "Choose your Sending Application:";
@@ -48,6 +49,7 @@ public class UserInformationActivity extends AppCompatActivity {
     private static final String ADDRESS_NOT_FOUND = "User's address isn't specified.";
     private static final String COMPANY_NOT_FOUND = "User's company isn't specified.";
 
+    private UserInformationActivityPresenter presenter;
     @BindView(R.id.profileToolBar)
     Toolbar profileToolbar;
     @BindView(R.id.tv_userName)
@@ -68,6 +70,21 @@ public class UserInformationActivity extends AppCompatActivity {
     Button userFavButton;
 
     private User user;
+    private String name;
+    private String userName;
+    private String phone;
+    private String email;
+    private String website;
+    private String suite;
+    private String street;
+    private String city;
+    private String zipCode;
+    private String companyName;
+    private String catchPhrase;
+    private String bs;
+    private String latitude;
+    private String longitude;
+
     private String url;
 
     public static void startScreen(Activity srcActivity, User userItem) {
@@ -84,7 +101,7 @@ public class UserInformationActivity extends AppCompatActivity {
         readIntent();
         setToolBarOptions(profileToolbar);
         setupListeners();
-        setFieldsText();
+        presenter.getInfo();
         setFieldsResources();
     }
 
@@ -92,6 +109,7 @@ public class UserInformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(USER_KEY)) {
             user = (User) intent.getSerializableExtra(USER_KEY);
+            presenter = new UserInformationActivityPresenter(this, user);
         } else {
             finish();
         }
@@ -103,31 +121,20 @@ public class UserInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (user.getAddress() != null) {
-                    User.Address.Geo geo = user.getAddress().getGeo();
-                    if (geo != null) {
-                        String latitude = Double.toString(user.getAddress().getGeo().getLat());
-                        String longitude = Double.toString(user.getAddress().getGeo().getLng());
-                        if (latitude != null && longitude != null) {
-                            url = String.format(Locale.ENGLISH, MAP_URL + "%f,%f", user.getAddress().getGeo().getLat(), user.getAddress().getGeo().getLng());
-                            startImplicitIntent(url);
-                        } else {
-                            showToast(MAP_NOT_FOUND_ALERT);
-                        }
-                    } else {
-                        showToast(MAP_NOT_FOUND_ALERT);
 
-                    }
+                if (latitude != presenter.UNSPECIDIED && longitude != presenter.UNSPECIDIED) {
+                    url = String.format(Locale.ENGLISH, MAP_URL + "%f,%f", latitude, longitude);
+                    startImplicitIntent(url);
                 } else {
                     showToast(MAP_NOT_FOUND_ALERT);
                 }
             }
+
         });
 
         websiteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String website = user.getWebsite();
                 if (website != null) {
                     url = WEBSITE_PROTOCOL + website;
                     startImplicitIntent(url);
@@ -140,7 +147,6 @@ public class UserInformationActivity extends AppCompatActivity {
         emailTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = user.getEmail();
                 if (email != null) {
                     Intent implicitIntent = new Intent(Intent.ACTION_SEND);
                     implicitIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
@@ -155,13 +161,13 @@ public class UserInformationActivity extends AppCompatActivity {
         userFavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (user.isFavorite()) {
+                if (presenter.checkFavorite()) {
                     userFavButton.setBackgroundResource(R.drawable.ic_star_border_black_24dp);
-                    user.setFavorite(false);
+                    presenter.updateFavorite(false);
                     favoriteUser(user);
                 } else {
                     userFavButton.setBackgroundResource(R.drawable.ic_star_black_24dp);
-                    user.setFavorite(true);
+                    presenter.updateFavorite(true);
                     favoriteUser(user);
                 }
             }
@@ -169,7 +175,8 @@ public class UserInformationActivity extends AppCompatActivity {
 
     }
 
-    private void showToast(String msg) {
+    @Override
+    public void showToast(String msg) {
         Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
         toast.show();
     }
@@ -185,14 +192,13 @@ public class UserInformationActivity extends AppCompatActivity {
         startActivity(implicitIntent);
     }
 
+
     private void setToolBarOptions(Toolbar toolbar) {
 
         toolbar.setTitle(APP_TITLE);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.back_arrow);
 
-        // TODO : dont override this behaviour , instead assign using setSupportActionBar(); && call getSupportActionBar().setHomeButtonEnabled(true);
-        // I tried it, it keeps refreshing the main activity as if no data was stored before
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,21 +207,38 @@ public class UserInformationActivity extends AppCompatActivity {
         });
     }
 
-    private void setFieldsText() {
+
+    @Override
+    public void assignValues(String name, String userName, String phone, String email, String street, String suite, String city, String zipCode, String companyName, String catchPhrase, String bs, String website, String lat, String lng) {
+        this.name = name;
+        this.userName = userName;
+        this.phone = phone;
+        this.website = website;
+        this.suite = suite;
+        this.city = city;
+        this.street = street;
+        this.zipCode = zipCode;
+        this.companyName = companyName;
+        this.catchPhrase = catchPhrase;
+        this.bs = bs;
+        this.latitude = lat;
+        this.latitude = lng;
+        setFieldsText(name, userName, phone, website, street, suite, city, zipCode, companyName, catchPhrase, bs, email);
+
+
+    }
+
+    private void setFieldsText(String name, String userName, String phone, String website, String street, String suite, String city, String zipCode, String companyName, String catchPhrase, String bs, String email) {
 
         SpannableString direction = new SpannableString(DIRECTIONS_MAPPER);
         direction.setSpan(new UnderlineSpan(), 0, direction.length(), 0);
 
-        nameTextView.setText(user.getName());
-        userNameTextView.setText(user.getUsername());
-        phoneTextView.setText(user.getPhone());
+        nameTextView.setText(name);
+        userNameTextView.setText(userName);
+        phoneTextView.setText(phone);
         emailTextView.setPaintFlags(emailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        emailTextView.setText(user.getEmail());
-        if (user.getAddress() != null) {
-            String street = user.getAddress().getStreet();
-            String suite = user.getAddress().getSuite();
-            String city = user.getAddress().getCity();
-            String zipCode = user.getAddress().getZipcode();
+        emailTextView.setText(email);
+        if (suite != presenter.UNSPECIDIED && city != presenter.UNSPECIDIED && street != presenter.UNSPECIDIED && zipCode != presenter.UNSPECIDIED) {
             String fullAddress = getString(R.string.fullAddress, street, suite, city, zipCode);
             addressTextView.setText(fullAddress);
             addressTextView.append(direction);
@@ -223,22 +246,19 @@ public class UserInformationActivity extends AppCompatActivity {
             addressTextView.setText(ADDRESS_NOT_FOUND);
         }
         websiteTextView.setPaintFlags(emailTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        websiteTextView.setText(user.getWebsite());
-        if (user.getCompany() != null) {
-            String companyName = user.getCompany().getCompanyName();
-            String catchPhrase = user.getCompany().getCatchPhrase();
-            String bs = user.getCompany().getBs();
+        websiteTextView.setText(website);
+        if (companyName != presenter.UNSPECIDIED && catchPhrase != presenter.UNSPECIDIED && bs != presenter.UNSPECIDIED) {
             String companyDetails = getString(R.string.companyDetails, companyName, catchPhrase, bs);
             companyTextView.setText(companyDetails);
         } else {
             companyTextView.setText(COMPANY_NOT_FOUND);
-
         }
+
 
     }
 
     private void setFieldsResources() {
-        if (!user.isFavorite()) {
+        if (!presenter.checkFavorite()) {
             userFavButton.setBackgroundResource(R.drawable.ic_star_border_black_24dp);
         } else {
             userFavButton.setBackgroundResource(R.drawable.ic_star_black_24dp);
