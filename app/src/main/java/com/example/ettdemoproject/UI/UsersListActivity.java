@@ -74,12 +74,14 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onFavClickEvent(FavClickEvent event) {
+
         int i;
         for (i = 0; i < usersList.size(); i++) {
-            if (usersList.get(i).getId() == event.user.getId()) {
+            if (usersList.get(i).getId() == event.user.getId()) { // TODO : you could also override Equals on User
                 break;
             }
         }
+        // TODO : move the above logic to inside the adapter since notifyItemChanged() can be called there as well .
         usersList.get(i).setFavorite(event.user.isFavorite());
         usersAdapter.notifyItemChanged(i);
 
@@ -158,6 +160,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersAdapter
 
     @Override
     public void onUserClick(User userItem) {
+
         UserInformationActivity.startScreen(this, userItem);
     }
 }

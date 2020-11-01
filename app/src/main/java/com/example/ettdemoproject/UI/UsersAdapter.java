@@ -99,6 +99,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
+            //TODO : u could use eventBus instead ? a userClickEvent .
             onUserListener.onUserClick(usersList.get(getAdapterPosition()));
         }
 

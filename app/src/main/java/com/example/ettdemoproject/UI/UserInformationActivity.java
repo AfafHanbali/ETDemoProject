@@ -193,7 +193,6 @@ public class UserInformationActivity extends AppCompatActivity {
 
         // TODO : dont override this behaviour , instead assign using setSupportActionBar(); && call getSupportActionBar().setHomeButtonEnabled(true);
         // I tried it, it keeps refreshing the main activity as if no data was stored before
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
