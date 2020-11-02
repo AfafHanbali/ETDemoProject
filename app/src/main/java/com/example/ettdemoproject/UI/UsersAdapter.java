@@ -114,7 +114,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         }
 
         private void onUserClickEvent(User user) {
-            EventBus.getDefault().postSticky(new UserClickEvent(user));
+            EventBus.getDefault().post(new UserClickEvent(user));
 
         }
 

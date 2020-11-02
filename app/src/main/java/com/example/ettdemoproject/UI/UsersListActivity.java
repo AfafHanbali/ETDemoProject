@@ -132,14 +132,11 @@ public class UsersListActivity extends AppCompatActivity implements UsersListAct
     }
 
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserClickEvent(UserClickEvent event) {
 
         UserInformationActivity.startScreen(this, event.user);
-        UserClickEvent stickyEvent = EventBus.getDefault().getStickyEvent(UserClickEvent.class);
-        if (stickyEvent != null) {
-            EventBus.getDefault().removeStickyEvent(stickyEvent);
-        }
+
     }
 
 }
