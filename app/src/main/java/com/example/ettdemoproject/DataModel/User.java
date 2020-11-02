@@ -1,8 +1,11 @@
 package com.example.ettdemoproject.DataModel;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author : Afaf Hanbali
@@ -10,24 +13,29 @@ import java.io.Serializable;
  */
 
 public class User implements Serializable {
+    public static final String UNSPECIFIED = "Unspecified";
 
-    private int id;
-    private String name;
-    private String username;
-    private String email;
+    private int id = -1;
+    private String name = UNSPECIFIED;
+    private String username = UNSPECIFIED;
+    private String email = UNSPECIFIED;
     private Address address;
-    private String phone;
-    private String website;
+    private String phone = UNSPECIFIED;
+    private String website = UNSPECIFIED;
     private Company company;
 
     private boolean isFavorite;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public static class Address implements Serializable {
 
-        private String street;
-        private String suite;
-        private String city;
-        private String zipcode;
+        private String street = UNSPECIFIED;
+        private String suite = UNSPECIFIED;
+        private String city = UNSPECIFIED;
+        private String zipcode = UNSPECIFIED;
         private Geo geo;
 
         public Address() {
@@ -35,8 +43,8 @@ public class User implements Serializable {
 
         public static class Geo implements Serializable {
 
-            private double lat;
-            private double lng;
+            private double lat = -1;
+            private double lng = -1;
 
             public Geo() {
             }
@@ -74,9 +82,9 @@ public class User implements Serializable {
 
     public static class Company implements Serializable {
         @SerializedName("name")
-        private String companyName;
-        private String catchPhrase;
-        private String bs;
+        private String companyName = UNSPECIFIED;
+        private String catchPhrase = UNSPECIFIED;
+        private String bs = UNSPECIFIED;
 
         public Company() {
         }
@@ -140,6 +148,15 @@ public class User implements Serializable {
     public boolean isFavorite() {
         return isFavorite;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId() == user.getId();
+    }
+
 
 }
 

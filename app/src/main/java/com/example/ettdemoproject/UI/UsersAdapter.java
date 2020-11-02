@@ -9,9 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ettdemoproject.Presenters.UsersListActivityPresenter;
+import com.example.ettdemoproject.Events.UserClickEvent;
 import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.DataModel.User;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -23,16 +25,26 @@ import butterknife.ButterKnife;
  * Created on 2020-Oct-5
  */
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements UsersListActivityPresenter.View {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
 
     private List<User> usersList;
-    private OnUserListener onUserListener;
     private User userObj;
 
-    public UsersAdapter(OnUserListener onUserListener) {
-        this.onUserListener = onUserListener;
+    public UsersAdapter() {
 
+    }
+
+    public void updateItem(User user) {
+        int position = getPosition(user);
+        if (position != -1) {
+            usersList.set(position, user);
+            notifyItemChanged(position);
+        }
+    }
+
+    public int getPosition(User user) {
+        return usersList.indexOf(user);
     }
 
     public void setUsersList(List<User> usersList) {
@@ -45,7 +57,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_layout, parent, false);
-        return new ViewHolder(view, onUserListener);
+        return new ViewHolder(view);
     }
 
 
@@ -89,24 +101,23 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         TextView emailTextView;
         @BindView(R.id.favButton)
         Button favButton;
-        OnUserListener onUserListener;
 
-        public ViewHolder(@NonNull View itemView, OnUserListener onUserListener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.onUserListener = onUserListener;
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            //TODO : u could use eventBus instead ? a userClickEvent .
-            onUserListener.onUserClick(usersList.get(getAdapterPosition()));
+            onUserClickEvent(usersList.get(getAdapterPosition()));
+        }
+
+        private void onUserClickEvent(User user) {
+            EventBus.getDefault().postSticky(new UserClickEvent(user));
+
         }
 
     }
 
-    public interface OnUserListener {
-        void onUserClick(User userItem);
-    }
 }
