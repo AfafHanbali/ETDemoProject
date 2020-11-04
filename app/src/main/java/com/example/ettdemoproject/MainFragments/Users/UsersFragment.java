@@ -1,20 +1,20 @@
-package com.example.ettdemoproject.UI;
+package com.example.ettdemoproject.MainFragments.Users;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
-
-import com.example.ettdemoproject.DataModel.User;
-import com.example.ettdemoproject.Events.UserClickEvent;
-import com.example.ettdemoproject.Presenters.UsersListActivityPresenter;
 import com.example.ettdemoproject.Events.FavClickEvent;
+import com.example.ettdemoproject.Events.UserClickEvent;
 import com.example.ettdemoproject.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,38 +25,45 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+import butterknife.Unbinder;
 
 /**
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
+public class UsersFragment extends Fragment implements UsersListActivityPresenter.View {
 
-public class UsersListActivity extends AppCompatActivity implements UsersListActivityPresenter.View {
-
-    public static final String APP_TITLE = "ETDemo Project";
     public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
     public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
 
+
     @BindView(R.id.rv_users)
     RecyclerView listOfUsers;
-    @BindView(R.id.mainToolBar)
-    Toolbar mainToolbar;
+
     private ProgressDialog progressDialog;
     private UsersAdapter usersAdapter = new UsersAdapter();
     private UsersListActivityPresenter presenter;
+    private Unbinder unbinder;
 
+    public UsersFragment() {
+    }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        setToolBarOptions(mainToolbar);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         buildProgressDialog();
         presenter = new UsersListActivityPresenter(this);
         presenter.loadUsers();
 
+        View view = inflater.inflate(R.layout.fragment_users, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override
@@ -82,14 +89,8 @@ public class UsersListActivity extends AppCompatActivity implements UsersListAct
     }
 
 
-    private void setToolBarOptions(Toolbar toolbar) {
-        toolbar.setTitle(APP_TITLE);
-        toolbar.setTitleTextColor(Color.WHITE);
-    }
-
-
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         presenter.disposables.clear();
     }
@@ -102,19 +103,19 @@ public class UsersListActivity extends AppCompatActivity implements UsersListAct
     private void setupAdapter(List<User> usersList) {
         usersAdapter.setUsersList(usersList);
         listOfUsers.setAdapter(usersAdapter);
-        listOfUsers.setLayoutManager(new LinearLayoutManager(this));
+        listOfUsers.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
 
     @Override
     public void showToast(String toastMsg) {
-        Toast toast = Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getContext(), toastMsg, Toast.LENGTH_LONG);
         toast.show();
     }
 
 
     private void buildProgressDialog() {
-        progressDialog = new ProgressDialog(this, R.style.progressDialog);
+        progressDialog = new ProgressDialog(getContext(), R.style.progressDialog);
         progressDialog.setMax(100);
         progressDialog.setMessage(PROGRESS_MSG_CONTENT);
         progressDialog.setTitle(PROGRESS_MSG_TITLE);
@@ -135,8 +136,7 @@ public class UsersListActivity extends AppCompatActivity implements UsersListAct
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserClickEvent(UserClickEvent event) {
 
-        UserInformationActivity.startScreen(this, event.user);
+        UserInformationActivity.startScreen(getActivity(), event.user);
 
     }
-
 }

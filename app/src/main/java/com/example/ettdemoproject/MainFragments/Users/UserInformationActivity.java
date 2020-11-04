@@ -1,4 +1,4 @@
-package com.example.ettdemoproject.UI;
+package com.example.ettdemoproject.MainFragments.Users;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.Events.FavClickEvent;
 import com.example.ettdemoproject.R;
 
@@ -37,7 +36,7 @@ import butterknife.ButterKnife;
 public class UserInformationActivity extends AppCompatActivity {
 
     public static final String APP_TITLE = "UserData";
-    public static final String EMAIL_CHOOSER_TITLE = "Choose your Sending Application:";
+    public static final String EMAIL_CHOOSER_TITLE = "Open with";
     public static final String USER_KEY = "userItem";
     public static final String DIRECTIONS_MAPPER = "Directions Here";
     public static final String WEBSITE_PROTOCOL = "http://";
@@ -147,7 +146,7 @@ public class UserInformationActivity extends AppCompatActivity {
                 if (email != user.UNSPECIFIED) {
                     Intent implicitIntent = new Intent(Intent.ACTION_SEND);
                     implicitIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
-                    implicitIntent.setType("isFav/rfc822");
+                    implicitIntent.setType("message/rfc822");
                     startActivity(Intent.createChooser(implicitIntent, EMAIL_CHOOSER_TITLE));
                 } else {
                     showToast(EMAIL_NOT_FOUND);

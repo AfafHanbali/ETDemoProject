@@ -1,13 +1,12 @@
 package com.example.ettdemoproject.networking;
 
-import androidx.annotation.NonNull;
-
-import com.example.ettdemoproject.DataModel.User;
+import com.example.ettdemoproject.MainFragments.Albums.Album;
+import com.example.ettdemoproject.MainFragments.Posts.Post;
+import com.example.ettdemoproject.MainFragments.Users.User;
 
 import java.util.List;
 
 import io.reactivex.Single;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -41,4 +40,13 @@ public class RetrofitHandler {
     public Single<List<User>> getUsers(){
         return jsonPlaceHolder.getUsers();
     }
+
+    public Single<List<Post>> getPosts(){
+        return jsonPlaceHolder.getPosts();
+    }
+
+    public Single<List<Album>> getAlbums(){
+        return jsonPlaceHolder.getAlbums();
+    }
+
 }

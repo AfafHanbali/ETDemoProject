@@ -1,4 +1,4 @@
-package com.example.ettdemoproject.UI;
+package com.example.ettdemoproject.MainFragments.Users;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ettdemoproject.Events.UserClickEvent;
 import com.example.ettdemoproject.R;
-import com.example.ettdemoproject.DataModel.User;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -56,7 +55,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_layout, parent, false);
+        View view = inflater.inflate(R.layout.user_item_layout, parent, false);
         return new ViewHolder(view);
     }
 

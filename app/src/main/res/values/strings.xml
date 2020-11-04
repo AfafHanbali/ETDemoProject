@@ -2,6 +2,13 @@
     <string name="app_name">ETDemoProject</string>
     <string name="fullAddress">%1$s\'%2$s\n%3$s\'%4$s\n</string>
     <string name="companyDetails">%1$s\n%2$s\n%3$s</string>
+    <string name="users">Users</string>
+    <string name="posts">Posts</string>
+    <string name="albums">Albums</string>
+    <string name="albumId">%1s Album#:%2s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
 

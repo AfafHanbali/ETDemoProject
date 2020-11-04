@@ -1,6 +1,6 @@
 package com.example.ettdemoproject.Events;
 
-import com.example.ettdemoproject.DataModel.User;
+import com.example.ettdemoproject.MainFragments.Users.User;
 
 /**
  * @author : Afaf Hanbali

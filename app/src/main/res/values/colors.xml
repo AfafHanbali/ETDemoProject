@@ -7,5 +7,6 @@
     <color name="colorWhite">#FFF</color>
     <color name="startColor">#A0E0BD</color>
     <color name="endColor">#00ffffff</color>
+    <color name="lessOpacityWhite">#76FFFFFF</color>
 
 </resources>

@@ -1,6 +1,5 @@
-package com.example.ettdemoproject.Presenters;
+package com.example.ettdemoproject.MainFragments.Posts;
 
-import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.networking.RetrofitHandler;
 
 import java.util.List;
@@ -16,36 +15,36 @@ import io.reactivex.schedulers.Schedulers;
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
-public class UsersListActivityPresenter {
+public class PostsListActivityPresenter {
 
     public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
 
-    private List<User> usersList;
+    private List<Post> postsList;
     private View view;
     public CompositeDisposable disposables = new CompositeDisposable();
 
 
-    public UsersListActivityPresenter(View view) {
+    public PostsListActivityPresenter(View view) {
         this.view = view;
     }
 
-    public void loadUsers() {
+    public void loadPosts() {
 
         view.showProgressDialog();
-        Single<List<User>> singleObservable = RetrofitHandler.getInstance(BASE_URL).getUsers();
+        Single<List<Post>> singleObservable = RetrofitHandler.getInstance(BASE_URL).getPosts();
         singleObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<User>>() {
+                .subscribe(new SingleObserver<List<Post>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposables.add(d);
                     }
 
                     @Override
-                    public void onSuccess(List<User> users) {
+                    public void onSuccess(List<Post> posts) {
                         view.hideProgressDialog();
-                        usersList = users;
-                        view.displayUsers(usersList);
+                        postsList = posts;
+                        view.displayPosts(postsList);
                     }
 
                     @Override
@@ -61,8 +60,11 @@ public class UsersListActivityPresenter {
     public interface View {
 
         void showProgressDialog();
+
         void hideProgressDialog();
-        void displayUsers(List<User> usersList);
+
+        void displayPosts(List<Post> postsList);
+
         void showToast(String msg);
 
     }

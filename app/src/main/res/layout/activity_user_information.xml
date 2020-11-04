@@ -14,7 +14,7 @@
             android:id="@+id/profileToolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="#009688"
             app:titleTextColor="@color/colorWhite" />
 
 

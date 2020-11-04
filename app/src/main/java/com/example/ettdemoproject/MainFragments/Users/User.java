@@ -1,11 +1,8 @@
-package com.example.ettdemoproject.DataModel;
-
-import androidx.annotation.Nullable;
+package com.example.ettdemoproject.MainFragments.Users;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * @author : Afaf Hanbali
