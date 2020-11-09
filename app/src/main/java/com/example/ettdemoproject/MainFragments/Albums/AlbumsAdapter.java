@@ -99,8 +99,13 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
             TransitionDrawable transitionDrawable = (TransitionDrawable) context.getResources().getDrawable(R.drawable.transition_drawable);
             holder.itemView.setBackgroundDrawable(transitionDrawable);
             transitionDrawable.startTransition(1000);
+            clearHighlightedRow();
         }
 
+    }
+
+    private void clearHighlightedRow() {
+        highlightedRow = -1;
     }
 
 

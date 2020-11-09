@@ -116,7 +116,12 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
         if (position != -1) {
             usersAdapter.setHighlightedRow(position);
             listOfUsers.scrollToPosition(position);
+            clearPosition();
         }
+    }
+
+    private void clearPosition() {
+        position = -1;
     }
 
 

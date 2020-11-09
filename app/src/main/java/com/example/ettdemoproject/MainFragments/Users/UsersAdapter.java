@@ -99,9 +99,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             TransitionDrawable transitionDrawable = (TransitionDrawable) context.getResources().getDrawable(R.drawable.transition_drawable);
             holder.itemView.setBackgroundDrawable(transitionDrawable);
             transitionDrawable.startTransition(1000);
+            clearHighlightedRow();
         }
     }
 
+    private void clearHighlightedRow() {
+        highlightedRow = -1;
+    }
 
     @Override
     public int getItemCount() {

@@ -87,7 +87,12 @@ public class AlbumsFragment extends Fragment implements AlbumsListActivityPresen
         if (position != -1) {
             albumsAdapter.setHighlightedRow(position);
             listOfAlbums.scrollToPosition(position);
+            clearPosition();
         }
+    }
+
+    private void clearPosition() {
+        position = -1;
     }
 
 

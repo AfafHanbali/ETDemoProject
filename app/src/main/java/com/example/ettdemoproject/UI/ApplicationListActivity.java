@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.ettdemoproject.MainFragments.Albums.AlbumsFragment;
@@ -68,16 +69,15 @@ public class ApplicationListActivity extends AppCompatActivity {
             if (type.equals(TYPE_POST)) {
                 setDefaultFragment(postsFragment);
                 bottomNavigationMenuView.setSelectedItemId(R.id.page_posts);
-                postsFragment.setPosition(id-1);
+                postsFragment.setPosition(id - 1);
             } else if (type.equals(TYPE_USER)) {
                 setDefaultFragment(usersFragment);
                 bottomNavigationMenuView.setSelectedItemId(R.id.page_users);
-                usersFragment.setPosition(id-1);
-            }
-            else if (type.equals(TYPE_ALBUM)) {
+                usersFragment.setPosition(id - 1);
+            } else if (type.equals(TYPE_ALBUM)) {
                 setDefaultFragment(albumsFragment);
                 bottomNavigationMenuView.setSelectedItemId(R.id.page_albums);
-                albumsFragment.setPosition(id-1);
+                albumsFragment.setPosition(id - 1);
             }
         }
 

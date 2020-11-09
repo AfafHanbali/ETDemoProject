@@ -87,9 +87,13 @@ public class PostsFragment extends Fragment implements PostsListActivityPresente
         if (position != -1) {
             postsAdapter.setHighlightedRow(position);
             listOfPosts.scrollToPosition(position);
+            clearPosition();
         }
     }
 
+    private void clearPosition() {
+        position = -1;
+    }
 
     @Override
     public void showToast(String toastMsg) {
