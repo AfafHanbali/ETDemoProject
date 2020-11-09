@@ -33,6 +33,7 @@ public class ApplicationListActivity extends AppCompatActivity {
     public static final String APP_TITLE = "ETDemo Project";
     private static final String TYPE_POST = "post";
     private static final String TYPE_USER = "user";
+    private static final String TYPE_ALBUM = "album";
 
     @BindView(R.id.mainToolBar)
     Toolbar mainToolbar;
@@ -72,6 +73,11 @@ public class ApplicationListActivity extends AppCompatActivity {
                 setDefaultFragment(usersFragment);
                 bottomNavigationMenuView.setSelectedItemId(R.id.page_users);
                 usersFragment.setPosition(id-1);
+            }
+            else if (type.equals(TYPE_ALBUM)) {
+                setDefaultFragment(albumsFragment);
+                bottomNavigationMenuView.setSelectedItemId(R.id.page_albums);
+                albumsFragment.setPosition(id-1);
             }
         }
 

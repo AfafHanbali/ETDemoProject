@@ -79,7 +79,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         postObj = postsList.get(position);
         String title = postObj.getTitle();
         String body = postObj.getBody();
-        String id = Integer.toString((postObj.getId() + postObj.getUserId()) - 1);
+        String id = Integer.toString((postObj.getId()));
         holder.postTitleTextView.setText(title);
         holder.postBodyTextView.setText(body);
 
@@ -87,7 +87,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 String host = HOST + TYPE + id;
-                String message = context.getResources().getString(R.string.postShareMsg, title, host);
+                String message = context.getString(R.string.postShareMsg, title, host);
                 Intent implicitIntent = new Intent(Intent.ACTION_SEND);
                 implicitIntent.putExtra(Intent.EXTRA_SUBJECT, SUBJECT);
                 implicitIntent.putExtra(Intent.EXTRA_TEXT, message);

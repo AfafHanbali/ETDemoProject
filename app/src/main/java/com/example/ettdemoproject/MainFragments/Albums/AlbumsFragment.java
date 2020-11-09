@@ -38,6 +38,7 @@ public class AlbumsFragment extends Fragment implements AlbumsListActivityPresen
     private AlbumsAdapter albumsAdapter = new AlbumsAdapter();
     private AlbumsListActivityPresenter presenter;
     private Unbinder unbinder;
+    private int position = -1;
 
     public AlbumsFragment() {
 
@@ -74,10 +75,19 @@ public class AlbumsFragment extends Fragment implements AlbumsListActivityPresen
         setupAdapter(AlbumsList);
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     private void setupAdapter(List<Album> albumList) {
         albumsAdapter.setAlbumList(albumList);
         listOfAlbums.setAdapter(albumsAdapter);
         listOfAlbums.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        if (position != -1) {
+            albumsAdapter.setHighlightedRow(position);
+            listOfAlbums.scrollToPosition(position);
+        }
     }
 
 

@@ -31,7 +31,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     public List<User> usersList;
     private User userObj;
-    Context context;
+    private Context context;
     private int highlightedRow = -1;
 
     public UsersAdapter() {
