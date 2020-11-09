@@ -37,15 +37,19 @@ public class UserInformationActivity extends AppCompatActivity {
 
     public static final String APP_TITLE = "UserData";
     public static final String EMAIL_CHOOSER_TITLE = "Open with";
+    public static final String SHARE_CHOOSER_TITLE = "Share with";
     public static final String USER_KEY = "userItem";
     public static final String DIRECTIONS_MAPPER = "Directions Here";
     public static final String WEBSITE_PROTOCOL = "http://";
     public static final String MAP_URL = "http://maps.google.com/maps?q=loc:";
     public static final String MAP_NOT_FOUND_ALERT = "Can't find location";
-    private static final String WEBSITE_NOT_FOUND = "Can't open the website";
-    private static final String EMAIL_NOT_FOUND = "Can't reach the email";
-    private static final String ADDRESS_NOT_FOUND = "User's address isn't specified.";
-    private static final String COMPANY_NOT_FOUND = "User's company isn't specified.";
+    public static final String WEBSITE_NOT_FOUND = "Can't open the website";
+    public static final String EMAIL_NOT_FOUND = "Can't reach the email";
+    public static final String ADDRESS_NOT_FOUND = "User's address isn't specified.";
+    public static final String COMPANY_NOT_FOUND = "User's company isn't specified.";
+    public static final String HOST = "https://www.etdemoproject.com/";
+    public static final String TYPE = "user/";
+    public static final String SUBJECT = "User Details";
 
     @BindView(R.id.profileToolBar)
     Toolbar profileToolbar;
@@ -65,6 +69,8 @@ public class UserInformationActivity extends AppCompatActivity {
     TextView companyTextView;
     @BindView(R.id.userFavButton)
     Button userFavButton;
+    @BindView(R.id.userShareButton)
+    Button shareButton;
 
     private User user;
     private String url;
@@ -166,6 +172,20 @@ public class UserInformationActivity extends AppCompatActivity {
                     user.setFavorite(true);
                     favoriteUser(user);
                 }
+            }
+        });
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = Integer.toString(user.getId());
+                String host = HOST + TYPE + id;
+                String message = getString(R.string.userShareMsg, user.getName(), host);
+                Intent implicitIntent = new Intent(Intent.ACTION_SEND);
+                implicitIntent.putExtra(Intent.EXTRA_SUBJECT, SUBJECT);
+                implicitIntent.putExtra(Intent.EXTRA_TEXT, message);
+                implicitIntent.setType("message/rfc822");
+                startActivity(Intent.createChooser(implicitIntent, SHARE_CHOOSER_TITLE));
             }
         });
 

@@ -11,26 +11,33 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tv_postTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="TextView"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textColor="#000" />
+    <Button
+        android:id="@+id/postShareButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="end"
+        android:background="@drawable/ic_share_black_24dp" />
+
+    <TextView
+        android:id="@+id/tv_postTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
 
-        <TextView
-            android:id="@+id/tv_body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textColor="#000" />
+    <TextView
+        android:id="@+id/tv_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#000" />
 
 
 </LinearLayout>

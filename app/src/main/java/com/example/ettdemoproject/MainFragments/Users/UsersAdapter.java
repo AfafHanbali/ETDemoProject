@@ -1,5 +1,7 @@
 package com.example.ettdemoproject.MainFragments.Users;
 
+import android.content.Context;
+import android.graphics.drawable.TransitionDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +29,10 @@ import butterknife.ButterKnife;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
 
-    private List<User> usersList;
+    public List<User> usersList;
     private User userObj;
+    Context context;
+    private int highlightedRow = -1;
 
     public UsersAdapter() {
 
@@ -50,11 +54,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         this.usersList = usersList;
     }
 
+    public void setHighlightedRow(int position) {
+        highlightedRow = position;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.user_item_layout, parent, false);
         return new ViewHolder(view);
     }
@@ -85,6 +94,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 }
             }
         });
+
+        if (highlightedRow == position) {
+            TransitionDrawable transitionDrawable = (TransitionDrawable) context.getResources().getDrawable(R.drawable.transition_drawable);
+            holder.itemView.setBackgroundDrawable(transitionDrawable);
+            transitionDrawable.startTransition(1000);
+        }
     }
 
 
@@ -92,6 +107,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public int getItemCount() {
         return usersList.size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.tv_username)
@@ -116,7 +132,5 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             EventBus.getDefault().post(new UserClickEvent(user));
 
         }
-
     }
-
 }

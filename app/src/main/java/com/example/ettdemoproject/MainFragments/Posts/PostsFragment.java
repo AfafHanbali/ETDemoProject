@@ -38,11 +38,11 @@ public class PostsFragment extends Fragment implements PostsListActivityPresente
     private PostsAdapter postsAdapter = new PostsAdapter();
     private PostsListActivityPresenter presenter;
     private Unbinder unbinder;
+    private int position = -1;
 
     public PostsFragment() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,15 +69,25 @@ public class PostsFragment extends Fragment implements PostsListActivityPresente
         presenter.disposables.clear();
     }
 
+
     @Override
     public void displayPosts(List<Post> postsList) {
         setupAdapter(postsList);
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     private void setupAdapter(List<Post> postList) {
         postsAdapter.setPostsList(postList);
         listOfPosts.setAdapter(postsAdapter);
         listOfPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        if (position != -1) {
+            postsAdapter.setHighlightedRow(position);
+            listOfPosts.scrollToPosition(position);
+        }
     }
 
 

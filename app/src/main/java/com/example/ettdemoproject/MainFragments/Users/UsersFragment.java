@@ -1,10 +1,13 @@
 package com.example.ettdemoproject.MainFragments.Users;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,7 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
 
     public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
     public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
+    private int position = -1;
 
 
     @BindView(R.id.rv_users)
@@ -100,10 +104,19 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
         setupAdapter(usersList);
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     private void setupAdapter(List<User> usersList) {
         usersAdapter.setUsersList(usersList);
         listOfUsers.setAdapter(usersAdapter);
         listOfUsers.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        if (position != -1) {
+            usersAdapter.setHighlightedRow(position);
+            listOfUsers.scrollToPosition(position);
+        }
     }
 
 
@@ -139,4 +152,5 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
         UserInformationActivity.startScreen(getActivity(), event.user);
 
     }
+
 }
