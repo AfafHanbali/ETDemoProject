@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
+
 public class UsersListActivityPresenter {
 
     public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
@@ -24,6 +25,10 @@ public class UsersListActivityPresenter {
     public CompositeDisposable disposables = new CompositeDisposable();
 
 
+    //TODO :  keeping this ref may introduce a memory leak .
+    // TODO : lets try to add a method called attachView where i call it with activity onStart
+    // and another called detachView() where i call it with activity onStop .
+    // i also need to check view if its attached or not .
     public UsersListActivityPresenter(View view) {
         this.view = view;
     }

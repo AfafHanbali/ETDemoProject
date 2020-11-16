@@ -85,6 +85,7 @@ public class PostsFragment extends Fragment implements PostsListActivityPresente
         listOfPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (position != -1) {
+            // TODO : maybe first scroll then highlight
             postsAdapter.setHighlightedRow(position);
             listOfPosts.scrollToPosition(position);
             clearPosition();

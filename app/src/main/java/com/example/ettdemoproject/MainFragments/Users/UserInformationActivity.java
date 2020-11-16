@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
  * Created on 2020-Oct-5
  */
 
+//TODO : this activity doesnt belong to this package .
 public class UserInformationActivity extends AppCompatActivity {
 
     public static final String APP_TITLE = "UserData";

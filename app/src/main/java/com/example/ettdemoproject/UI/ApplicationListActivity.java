@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
  * Created on 2020-Oct-5
  */
 
+//TODO :  you could simply call it MainActivity
 public class ApplicationListActivity extends AppCompatActivity {
 
     public static final String APP_TITLE = "ETDemo Project";
@@ -40,9 +41,12 @@ public class ApplicationListActivity extends AppCompatActivity {
     Toolbar mainToolbar;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationMenuView;
+    // TODO : can we pls use view pager to manage those xactions and instances
     UsersFragment usersFragment = new UsersFragment();
     AlbumsFragment albumsFragment = new AlbumsFragment();
     PostsFragment postsFragment = new PostsFragment();
+
+    // TODO : pls add access modifier .
     Uri data;
     int id;
     String type;
@@ -58,6 +62,7 @@ public class ApplicationListActivity extends AppCompatActivity {
         data = getIntent().getData();
 
 
+        // TODO : i highly recommend link ur bot nav view with view pager , easier to maintain .
         if (savedInstanceState == null && data == null) {
             setDefaultFragment(usersFragment);
             bottomNavigationMenuView.setSelectedItemId(R.id.page_users);

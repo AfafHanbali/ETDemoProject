@@ -11,20 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainFragments.Users.UserInformationActivity"
-            android:parentActivityName=".UI.ApplicationListActivity">
-        </activity>
+        <activity
+            android:name=".MainFragments.Users.UserInformationActivity"
+            android:parentActivityName=".UI.ApplicationListActivity"></activity>
         <activity android:name=".UI.ApplicationListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https"
-                    android:host="www.etdemoproject.com" />
+                <!-- TODO : scheme can be simply an acronym to ur project i,e etdemo://jsonplaceholder.com             -->
+                <data
+                    android:host="www.etdemoproject.com"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
     </application>

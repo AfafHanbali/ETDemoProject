@@ -8,6 +8,7 @@ import java.io.Serializable;
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
+//TODO : this class doesnt belong to this package .
 
 public class User implements Serializable {
     public static final String UNSPECIFIED = "Unspecified";

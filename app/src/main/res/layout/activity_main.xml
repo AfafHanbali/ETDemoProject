@@ -11,7 +11,7 @@
         android:background="#009688"
         app:titleTextColor="@color/colorWhite" />
 
-
+    <!-- TODO : replace with view pager .    -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
