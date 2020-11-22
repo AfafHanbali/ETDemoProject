@@ -1,5 +1,6 @@
 package com.example.ettdemoproject.MainFragments.Posts;
 
+import com.example.ettdemoproject.DataModel.Post;
 import com.example.ettdemoproject.networking.RetrofitHandler;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
-public class PostsListActivityPresenter {
+public class PostsFragmentPresenter {
 
     public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
 
@@ -24,8 +25,19 @@ public class PostsListActivityPresenter {
     public CompositeDisposable disposables = new CompositeDisposable();
 
 
-    public PostsListActivityPresenter(View view) {
+    public PostsFragmentPresenter(View view) {
         this.view = view;
+    }
+
+    public void attachView(View view) {
+        if (this.view == null) {
+            this.view = view;
+        }
+    }
+
+    public void detachView() {
+        view = null;
+
     }
 
     public void loadPosts() {

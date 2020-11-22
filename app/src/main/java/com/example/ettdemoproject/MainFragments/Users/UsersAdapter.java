@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.Events.UserClickEvent;
 import com.example.ettdemoproject.R;
 
@@ -97,8 +98,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         if (highlightedRow == position) {
             TransitionDrawable transitionDrawable = (TransitionDrawable) context.getResources().getDrawable(R.drawable.transition_drawable);
-            holder.itemView.setBackgroundDrawable(transitionDrawable);
-            transitionDrawable.startTransition(1000);
+            holder.itemView.setBackground(transitionDrawable);
+            transitionDrawable.startTransition(1500);
             clearHighlightedRow();
         }
     }

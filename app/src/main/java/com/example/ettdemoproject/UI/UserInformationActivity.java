@@ -1,4 +1,4 @@
-package com.example.ettdemoproject.MainFragments.Users;
+package com.example.ettdemoproject.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
+import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.Events.FavClickEvent;
 import com.example.ettdemoproject.R;
 
@@ -26,6 +28,12 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.SharingHelper;
+import io.branch.referral.util.LinkProperties;
+import io.branch.referral.util.ShareSheetStyle;
 
 
 /**
@@ -33,7 +41,6 @@ import butterknife.ButterKnife;
  * Created on 2020-Oct-5
  */
 
-//TODO : this activity doesnt belong to this package .
 public class UserInformationActivity extends AppCompatActivity {
 
     public static final String APP_TITLE = "UserData";
@@ -48,8 +55,7 @@ public class UserInformationActivity extends AppCompatActivity {
     public static final String EMAIL_NOT_FOUND = "Can't reach the email";
     public static final String ADDRESS_NOT_FOUND = "User's address isn't specified.";
     public static final String COMPANY_NOT_FOUND = "User's company isn't specified.";
-    public static final String HOST = "https://www.etdemoproject.com/";
-    public static final String TYPE = "user/";
+    public static final String TYPE = "user";
     public static final String SUBJECT = "User Details";
 
     @BindView(R.id.profileToolBar)
@@ -92,6 +98,7 @@ public class UserInformationActivity extends AppCompatActivity {
         setupListeners();
         setFieldsText();
         setFieldsResources();
+
     }
 
     private void readIntent() {
@@ -180,16 +187,59 @@ public class UserInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String id = Integer.toString(user.getId());
-                String host = HOST + TYPE + id;
-                String message = getString(R.string.userShareMsg, user.getName(), host);
-                Intent implicitIntent = new Intent(Intent.ACTION_SEND);
-                implicitIntent.putExtra(Intent.EXTRA_SUBJECT, SUBJECT);
-                implicitIntent.putExtra(Intent.EXTRA_TEXT, message);
-                implicitIntent.setType("message/rfc822");
-                startActivity(Intent.createChooser(implicitIntent, SHARE_CHOOSER_TITLE));
+                String message = getString(R.string.userShareMsg, user.getName());
+                BranchUniversalObject buo = getBranchUniversalObject(id);
+                LinkProperties lp = getLinkProperties();
+                ShareSheetStyle ss = getShareSheetStyle(message);
+
+                buo.showShareSheet(UserInformationActivity.this, lp, ss, new Branch.BranchLinkShareListener() {
+                    @Override
+                    public void onShareLinkDialogLaunched() {
+                    }
+
+                    @Override
+                    public void onShareLinkDialogDismissed() {
+                    }
+
+                    @Override
+                    public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
+                    }
+
+                    @Override
+                    public void onChannelSelected(String channelName) {
+                    }
+                });
+
             }
         });
 
+    }
+
+    private BranchUniversalObject getBranchUniversalObject(String id){
+        return new BranchUniversalObject()
+                .setCanonicalIdentifier(id)
+                .setTitle(user.getName())
+                .setContentDescription(TYPE)
+                .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
+                .setLocalIndexMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC);
+    }
+
+    private LinkProperties getLinkProperties(){
+        return  new LinkProperties()
+                .setChannel("facebook")
+                .setFeature("sharing")
+                .setCampaign("content 123 launch")
+                .setStage("new user");
+    }
+
+    private ShareSheetStyle getShareSheetStyle(String message) {
+        return new ShareSheetStyle(UserInformationActivity.this, SUBJECT, message)
+                .setCopyUrlStyle(ContextCompat.getDrawable(UserInformationActivity.this, android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
+                .setMoreOptionStyle(ContextCompat.getDrawable(UserInformationActivity.this, android.R.drawable.ic_menu_search), "Show more")
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.GMAIL)
+                .setAsFullWidthStyle(true)
+                .setSharingTitle(SHARE_CHOOSER_TITLE);
     }
 
     private void showToast(String msg) {

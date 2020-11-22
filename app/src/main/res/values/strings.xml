@@ -6,9 +6,9 @@
     <string name="posts">Posts</string>
     <string name="albums">Albums</string>
     <string name="albumId">%1s Album#:%2s</string>
-    <string name="userShareMsg">Hello, my name is %1s.\n You can find my information in the link below:\n\n%2s</string>
-    <string name="postShareMsg">This is post \"%1s\".\n\nYou can check it in the link below:\n%2s</string>
-    <string name="albumShareMsg">This is Album \"%1s\".\n\nYou can check it in the link below:\n%2s</string>
+    <string name="userShareMsg">Hello, my name is %1s.\n You can find my information in the link below:\n</string>
+    <string name="postShareMsg">This is post \"%1s\".\nYou can check it in the link below:\n</string>
+    <string name="albumShareMsg">This is Album \"%1s\".\n\nYou can check it in the link below:\n</string>
 
 
 </resources>

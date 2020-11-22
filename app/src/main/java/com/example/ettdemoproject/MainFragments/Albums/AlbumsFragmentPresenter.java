@@ -1,5 +1,6 @@
 package com.example.ettdemoproject.MainFragments.Albums;
 
+import com.example.ettdemoproject.DataModel.Album;
 import com.example.ettdemoproject.networking.RetrofitHandler;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
-public class AlbumsListActivityPresenter {
+public class AlbumsFragmentPresenter {
 
     public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
 
@@ -24,9 +25,22 @@ public class AlbumsListActivityPresenter {
     public CompositeDisposable disposables = new CompositeDisposable();
 
 
-    public AlbumsListActivityPresenter(View view) {
+    public AlbumsFragmentPresenter(View view) {
         this.view = view;
     }
+
+    /*
+    public void attachView(View view) {
+        if (this.view == null) {
+            this.view = view;
+        }
+    }
+
+
+    public void detachView() {
+        view = null;
+
+    }*/
 
     public void loadAlbums() {
 
@@ -60,11 +74,8 @@ public class AlbumsListActivityPresenter {
     public interface View {
 
         void showProgressDialog();
-
         void hideProgressDialog();
-
         void displayAlbums(List<Album> AlbumsList);
-
         void showToast(String msg);
 
     }

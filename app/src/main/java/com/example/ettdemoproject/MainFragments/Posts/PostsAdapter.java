@@ -1,5 +1,6 @@
 package com.example.ettdemoproject.MainFragments.Posts;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
@@ -8,17 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ettdemoproject.DataModel.Post;
 import com.example.ettdemoproject.R;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.SharingHelper;
+import io.branch.referral.util.LinkProperties;
+import io.branch.referral.util.ShareSheetStyle;
 
 
 /**
@@ -30,16 +38,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
 
     private static final CharSequence SHARE_CHOOSER_TITLE = "Share with";
-    private static final String HOST = "https://www.etdemoproject.com/";
-    private static final String TYPE = "post/";
+    private static final String TYPE = "post";
     private static final String SUBJECT = "Post Details";
     private List<Post> postsList;
     private Post postObj;
     private int highlightedRow = -1;
-    Context context;
+    private Context context;
+    private Activity activity;
 
-    public PostsAdapter() {
-
+    public PostsAdapter(Activity activity) {
+        this.activity=activity;
     }
 
     public void updateItem(Post post) {
@@ -86,21 +94,37 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         holder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String host = HOST + TYPE + id;
-                String message = context.getString(R.string.postShareMsg, title, host);
-                Intent implicitIntent = new Intent(Intent.ACTION_SEND);
-                implicitIntent.putExtra(Intent.EXTRA_SUBJECT, SUBJECT);
-                implicitIntent.putExtra(Intent.EXTRA_TEXT, message);
-                implicitIntent.setType("message/rfc822");
-                context.startActivity(Intent.createChooser(implicitIntent, SHARE_CHOOSER_TITLE));
+                String message = context.getString(R.string.postShareMsg, title);
+                BranchUniversalObject buo = getBranchUniversalObject(id, title);
+                LinkProperties lp = getLinkProperties();
+                ShareSheetStyle ss = getShareSheetStyle(message);
+
+                buo.showShareSheet(activity, lp, ss, new Branch.BranchLinkShareListener() {
+                    @Override
+                    public void onShareLinkDialogLaunched() {
+                    }
+
+                    @Override
+                    public void onShareLinkDialogDismissed() {
+                    }
+
+                    @Override
+                    public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
+                    }
+
+                    @Override
+                    public void onChannelSelected(String channelName) {
+                    }
+                });
+
 
             }
         });
 
         if (highlightedRow == position) {
             TransitionDrawable transitionDrawable = (TransitionDrawable) context.getResources().getDrawable(R.drawable.transition_drawable);
-            holder.itemView.setBackgroundDrawable(transitionDrawable);
-            transitionDrawable.startTransition(1000);
+            holder.itemView.setBackground(transitionDrawable);
+            transitionDrawable.startTransition(1500);
             clearHighlightedRow();
         }
 
@@ -115,6 +139,33 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         return postsList.size();
     }
 
+
+    private BranchUniversalObject getBranchUniversalObject(String id, String title){
+        return new BranchUniversalObject()
+                .setCanonicalIdentifier(id)
+                .setTitle(title)
+                .setContentDescription(TYPE)
+                .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
+                .setLocalIndexMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC);
+    }
+
+    private LinkProperties getLinkProperties(){
+        return  new LinkProperties()
+                .setChannel("facebook")
+                .setFeature("sharing")
+                .setCampaign("content 123 launch")
+                .setStage("new user");
+    }
+
+    private ShareSheetStyle getShareSheetStyle(String message) {
+        return new ShareSheetStyle(context, SUBJECT, message)
+                .setCopyUrlStyle(ContextCompat.getDrawable(context, android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
+                .setMoreOptionStyle(ContextCompat.getDrawable(context, android.R.drawable.ic_menu_search), "Show more")
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.GMAIL)
+                .setAsFullWidthStyle(true)
+                .setSharingTitle(String.valueOf(SHARE_CHOOSER_TITLE));
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.tv_postTitle)

@@ -1,10 +1,9 @@
-package com.example.ettdemoproject.MainFragments.Posts;
+package com.example.ettdemoproject.DataModel;
 
 /**
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
-//TODO : this class doesnt belong to this package .
 
 public class Post {
     private int userId;

@@ -1,6 +1,7 @@
 package com.example.ettdemoproject.MainFragments.Posts;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.ettdemoproject.DataModel.Post;
 import com.example.ettdemoproject.R;
 
 import java.util.List;
@@ -26,7 +28,7 @@ import butterknife.Unbinder;
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
-public class PostsFragment extends Fragment implements PostsListActivityPresenter.View {
+public class PostsFragment extends Fragment implements PostsFragmentPresenter.View {
     public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
     public static final String PROGRESS_MSG_CONTENT = ("The List of Posts is loading...");
 
@@ -35,8 +37,8 @@ public class PostsFragment extends Fragment implements PostsListActivityPresente
     RecyclerView listOfPosts;
 
     private ProgressDialog progressDialog;
-    private PostsAdapter postsAdapter = new PostsAdapter();
-    private PostsListActivityPresenter presenter;
+    private PostsAdapter postsAdapter;
+    private PostsFragmentPresenter presenter;
     private Unbinder unbinder;
     private int position = -1;
 
@@ -48,12 +50,25 @@ public class PostsFragment extends Fragment implements PostsListActivityPresente
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         buildProgressDialog();
-        presenter = new PostsListActivityPresenter(this);
+        postsAdapter = new PostsAdapter(getActivity());
+        presenter = new PostsFragmentPresenter(this);
         presenter.loadPosts();
 
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // presenter.attachView(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //  presenter.detachView();
     }
 
     @Override
@@ -85,9 +100,8 @@ public class PostsFragment extends Fragment implements PostsListActivityPresente
         listOfPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (position != -1) {
-            // TODO : maybe first scroll then highlight
-            postsAdapter.setHighlightedRow(position);
             listOfPosts.scrollToPosition(position);
+            postsAdapter.setHighlightedRow(position);
             clearPosition();
         }
     }

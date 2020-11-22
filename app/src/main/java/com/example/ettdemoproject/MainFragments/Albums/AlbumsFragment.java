@@ -1,6 +1,7 @@
 package com.example.ettdemoproject.MainFragments.Albums;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.ettdemoproject.DataModel.Album;
 import com.example.ettdemoproject.R;
 
 import java.util.List;
@@ -25,7 +27,7 @@ import butterknife.Unbinder;
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
-public class AlbumsFragment extends Fragment implements AlbumsListActivityPresenter.View {
+public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.View {
 
     public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
     public static final String PROGRESS_MSG_CONTENT = ("The List of Albums is loading...");
@@ -35,26 +37,39 @@ public class AlbumsFragment extends Fragment implements AlbumsListActivityPresen
     RecyclerView listOfAlbums;
 
     private ProgressDialog progressDialog;
-    private AlbumsAdapter albumsAdapter = new AlbumsAdapter();
-    private AlbumsListActivityPresenter presenter;
+    private AlbumsAdapter albumsAdapter;
+    private AlbumsFragmentPresenter presenter;
     private Unbinder unbinder;
-    private int position = -1;
+    public int position = -1;
 
     public AlbumsFragment() {
-
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         buildProgressDialog();
-        presenter = new AlbumsListActivityPresenter(this);
+        albumsAdapter = new AlbumsAdapter(getActivity());
+        presenter = new AlbumsFragmentPresenter(this);
         presenter.loadAlbums();
 
         View view = inflater.inflate(R.layout.fragment_albums, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //presenter.attachView(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //presenter.detachView();
     }
 
     @Override
@@ -85,8 +100,8 @@ public class AlbumsFragment extends Fragment implements AlbumsListActivityPresen
         listOfAlbums.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (position != -1) {
-            albumsAdapter.setHighlightedRow(position);
             listOfAlbums.scrollToPosition(position);
+            albumsAdapter.setHighlightedRow(position);
             clearPosition();
         }
     }

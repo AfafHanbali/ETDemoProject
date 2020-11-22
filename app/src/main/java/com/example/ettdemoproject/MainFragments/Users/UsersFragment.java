@@ -1,13 +1,10 @@
 package com.example.ettdemoproject.MainFragments.Users;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,9 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.Events.FavClickEvent;
 import com.example.ettdemoproject.Events.UserClickEvent;
 import com.example.ettdemoproject.R;
+import com.example.ettdemoproject.UI.UserInformationActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,7 +33,7 @@ import butterknife.Unbinder;
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
-public class UsersFragment extends Fragment implements UsersListActivityPresenter.View {
+public class UsersFragment extends Fragment implements UsersFragmentPresenter.View {
 
     public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
     public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
@@ -46,7 +45,7 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
 
     private ProgressDialog progressDialog;
     private UsersAdapter usersAdapter = new UsersAdapter();
-    private UsersListActivityPresenter presenter;
+    private UsersFragmentPresenter presenter;
     private Unbinder unbinder;
 
     public UsersFragment() {
@@ -56,7 +55,7 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         buildProgressDialog();
-        presenter = new UsersListActivityPresenter(this);
+        presenter = new UsersFragmentPresenter(this);
         presenter.loadUsers();
 
         View view = inflater.inflate(R.layout.fragment_users, container, false);
@@ -73,6 +72,7 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
     @Override
     public void onStart() {
         super.onStart();
+        //presenter.attachView(this);
         EventBus.getDefault().register(this);
     }
 
@@ -88,8 +88,9 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
 
     @Override
     public void onStop() {
-        EventBus.getDefault().unregister(this);
         super.onStop();
+        //presenter.detachView();
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -114,8 +115,8 @@ public class UsersFragment extends Fragment implements UsersListActivityPresente
         listOfUsers.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (position != -1) {
-            usersAdapter.setHighlightedRow(position);
             listOfUsers.scrollToPosition(position);
+            usersAdapter.setHighlightedRow(position);
             clearPosition();
         }
     }

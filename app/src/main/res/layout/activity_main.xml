@@ -11,13 +11,14 @@
         android:background="#009688"
         app:titleTextColor="@color/colorWhite" />
 
-    <!-- TODO : replace with view pager .    -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <androidx.viewpager2.widget.ViewPager2 xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:layout_above="@id/bottom_navigation"
-        android:layout_below="@id/mainToolBar" />
+        android:layout_below="@id/mainToolBar"/>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

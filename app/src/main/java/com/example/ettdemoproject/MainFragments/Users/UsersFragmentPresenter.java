@@ -1,5 +1,6 @@
 package com.example.ettdemoproject.MainFragments.Users;
 
+import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.networking.RetrofitHandler;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created on 2020-Oct-5
  */
 
-public class UsersListActivityPresenter {
+public class UsersFragmentPresenter {
 
     public static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
 
@@ -29,8 +30,19 @@ public class UsersListActivityPresenter {
     // TODO : lets try to add a method called attachView where i call it with activity onStart
     // and another called detachView() where i call it with activity onStop .
     // i also need to check view if its attached or not .
-    public UsersListActivityPresenter(View view) {
+    public UsersFragmentPresenter(View view) {
         this.view = view;
+    }
+
+    public void attachView(View view) {
+        if (this.view == null) {
+            this.view = view;
+        }
+    }
+
+    public void detachView() {
+        view = null;
+
     }
 
     public void loadUsers() {

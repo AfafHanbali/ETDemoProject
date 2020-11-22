@@ -1,8 +1,8 @@
 package com.example.ettdemoproject.networking;
 
-import com.example.ettdemoproject.MainFragments.Albums.Album;
-import com.example.ettdemoproject.MainFragments.Posts.Post;
-import com.example.ettdemoproject.MainFragments.Users.User;
+import com.example.ettdemoproject.DataModel.Album;
+import com.example.ettdemoproject.DataModel.Post;
+import com.example.ettdemoproject.DataModel.User;
 
 import java.util.List;
 
