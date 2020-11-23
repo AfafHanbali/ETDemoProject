@@ -14,12 +14,8 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
-
-import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.MainFragments.Albums.AlbumsFragment;
 import com.example.ettdemoproject.MainFragments.Posts.PostsFragment;
 import com.example.ettdemoproject.MainFragments.Users.UsersFragment;
@@ -43,6 +39,7 @@ import io.branch.referral.BranchError;
 
 public class MainActivity extends FragmentActivity {
 
+    private static final String TAG = "BRANCH SDK";
     public static final String APP_TITLE = "ETDemo Project";
     private static final String TYPE_POST = "post";
     private static final String TYPE_USER = "user";
@@ -99,7 +96,7 @@ public class MainActivity extends FragmentActivity {
                             bottomNavigationMenuView.setSelectedItemId(R.id.page_users);
                             isLinkClicked = true;
                             rowPosition = id - 1;
-                          //  usersFragment.setPosition(id - 1);
+                            //  usersFragment.setPosition(id - 1);
                         } else if (type.equals(TYPE_POST)) {
                             viewPager.setCurrentItem(2);
                             bottomNavigationMenuView.setSelectedItemId(R.id.page_posts);
@@ -112,7 +109,7 @@ public class MainActivity extends FragmentActivity {
                         e.printStackTrace();
                     }
                 } else {
-                    // Log.i(""BRANCH SDK"", error.getMessage());
+                    Log.i(TAG, error.getMessage());
                 }
             }
         };
