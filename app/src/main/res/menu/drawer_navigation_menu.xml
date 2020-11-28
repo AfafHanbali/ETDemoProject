@@ -15,7 +15,7 @@
             android:title="@string/notifications" />
     </group>
 
-    <item android:title="Settings">
+    <item android:title="@string/account_settings">
         <menu>
             <item
                 android:id="@+id/nav_logout"
