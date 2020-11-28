@@ -98,6 +98,7 @@ public class UserInformationActivity extends AppCompatActivity {
         setupListeners();
         setFieldsText();
         setFieldsResources();
+        setSupportActionBar(profileToolbar);
 
     }
 

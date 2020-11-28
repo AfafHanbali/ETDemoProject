@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ettdemoproject.R;
+import com.example.ettdemoproject.SignUpHelperClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -76,35 +77,31 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username = usernameEditText.getText().toString();
-                password = passwordEditText.getText().toString();
+                username = usernameEditText.getText().toString().trim();
+                password = passwordEditText.getText().toString().trim();
 
                 if (username.isEmpty()) {
                     usernameEditText.setError(USERNAME_ERROR);
+                    usernameEditText.requestFocus();
                     return;
                 }
                 if (password.isEmpty()) {
                     passwordEditText.setError(PASSWORD_ERROR);
+                    passwordEditText.requestFocus();
                     return;
                 }
-                if (username.contains("@")) {
-                    loginAuth(username, password);
-                } else {
-                    login();
-                }
+                loginAuth(username, password);
+
             }
         });
 
         signUpLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // to be continued..
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
             }
         });
-
-
     }
-
 
     @Override
     public void onStart() {
@@ -131,7 +128,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, SUCCESS_MSG);
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
                             progressDialog.dismiss();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
@@ -157,41 +153,4 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-
-    private void login() {
-        showProgressDialog();
-
-        DatabaseReference reference = database.getReference(PATH);
-        Query checkUser = reference.orderByChild("username").equalTo(username);
-
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    //usernameEditText.setError(null);
-                    String passwordDB = dataSnapshot.child(username).child("password").getValue().toString();
-
-                    if (passwordDB.equals(password)) {
-                        progressDialog.dismiss();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    } else {
-                        progressDialog.dismiss();
-                        passwordEditText.setError(WRONG_PASSWORD_ERROR);
-                        passwordEditText.requestFocus();
-                    }
-                } else {
-                    progressDialog.dismiss();
-                    usernameEditText.setError(NO_USERNAME_ERROR);
-                    usernameEditText.requestFocus();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
 }

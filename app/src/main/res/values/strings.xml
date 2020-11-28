@@ -10,11 +10,30 @@
     <string name="postShareMsg">This is post \"%1s\".\nYou can check it in the link below:\n</string>
     <string name="albumShareMsg">This is Album \"%1s\".\n\nYou can check it in the link below:\n</string>
 
-    <string name="username_hint">Username/Email</string>
     <string name="password_hint">Password</string>
     <string name="login_button">Login</string>
     <string name="sign_up_question">Don\'t have an account?</string>
     <string name="sign_up"><u>Sign up!</u></string>
+    <string name="signUp_username_hint">Username</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="email_hint">Email</string>
+    <string name="rePassword_hint">Re-enter Password</string>
+    <string name="login_question">Already Have An Account?</string>
+    <string name="login"><u>Log in!</u></string>
+    <string name="name_hint">Full Name</string>
+    <string name="welcome_phrase">WELCOME TO ETDEMO</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="notifications">Notifications</string>
+    <string name="logout">Log Out</string>
+    <string name="close">Close</string>
+    <string name="start">Start</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

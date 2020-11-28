@@ -1,4 +1,4 @@
-package com.example.ettdemoproject.MainFragments.Albums;
+package com.example.ettdemoproject.Fragments.HomeFragments.Albums;
 
 import com.example.ettdemoproject.DataModel.Album;
 import com.example.ettdemoproject.networking.RetrofitHandler;

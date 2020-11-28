@@ -1,7 +1,6 @@
-package com.example.ettdemoproject.MainFragments.Albums;
+package com.example.ettdemoproject.Fragments.HomeFragments.Posts;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -14,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.ettdemoproject.DataModel.Album;
+import com.example.ettdemoproject.DataModel.Post;
 import com.example.ettdemoproject.R;
 
 import java.util.List;
@@ -23,39 +22,38 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+
 /**
  * @author : Afaf Hanbali
  * Created on 2020-Oct-5
  */
-public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.View {
-
+public class PostsFragment extends Fragment implements PostsFragmentPresenter.View {
     public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
-    public static final String PROGRESS_MSG_CONTENT = ("The List of Albums is loading...");
+    public static final String PROGRESS_MSG_CONTENT = ("The List of Posts is loading...");
 
 
-    @BindView(R.id.rv_albums)
-    RecyclerView listOfAlbums;
+    @BindView(R.id.rv_posts)
+    RecyclerView listOfPosts;
 
     private ProgressDialog progressDialog;
-    private AlbumsAdapter albumsAdapter;
-    private AlbumsFragmentPresenter presenter;
+    private PostsAdapter postsAdapter;
+    private PostsFragmentPresenter presenter;
     private Unbinder unbinder;
-    public int position = -1;
+    private int position = -1;
 
-    public AlbumsFragment() {
+    public PostsFragment() {
+
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         buildProgressDialog();
-        albumsAdapter = new AlbumsAdapter(getActivity());
-        presenter = new AlbumsFragmentPresenter(this);
-        presenter.loadAlbums();
+        postsAdapter = new PostsAdapter(getActivity());
+        presenter = new PostsFragmentPresenter(this);
+        presenter.loadPosts();
 
-        View view = inflater.inflate(R.layout.fragment_albums, container, false);
+        View view = inflater.inflate(R.layout.fragment_posts, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -63,13 +61,13 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     @Override
     public void onStart() {
         super.onStart();
-        //presenter.attachView(this);
+        // presenter.attachView(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //presenter.detachView();
+        //  presenter.detachView();
     }
 
     @Override
@@ -85,23 +83,24 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
         presenter.disposables.clear();
     }
 
+
     @Override
-    public void displayAlbums(List<Album> AlbumsList) {
-        setupAdapter(AlbumsList);
+    public void displayPosts(List<Post> postsList) {
+        setupAdapter(postsList);
     }
 
     public void setPosition(int position) {
         this.position = position;
     }
 
-    private void setupAdapter(List<Album> albumList) {
-        albumsAdapter.setAlbumList(albumList);
-        listOfAlbums.setAdapter(albumsAdapter);
-        listOfAlbums.setLayoutManager(new LinearLayoutManager(getContext()));
+    private void setupAdapter(List<Post> postList) {
+        postsAdapter.setPostsList(postList);
+        listOfPosts.setAdapter(postsAdapter);
+        listOfPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (position != -1) {
-            listOfAlbums.scrollToPosition(position);
-            albumsAdapter.setHighlightedRow(position);
+            listOfPosts.scrollToPosition(position);
+            postsAdapter.setHighlightedRow(position);
             clearPosition();
         }
     }
@@ -109,7 +108,6 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     private void clearPosition() {
         position = -1;
     }
-
 
     @Override
     public void showToast(String toastMsg) {
@@ -135,5 +133,4 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     public void hideProgressDialog() {
         progressDialog.dismiss();
     }
-
 }

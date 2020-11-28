@@ -1,4 +1,4 @@
-package com.example.ettdemoproject.MainFragments.Users;
+package com.example.ettdemoproject.Fragments.HomeFragments.Users;
 
 import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.networking.RetrofitHandler;

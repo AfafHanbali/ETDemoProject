@@ -1,4 +1,4 @@
-package com.example.ettdemoproject.MainFragments.Users;
+package com.example.ettdemoproject.Fragments.HomeFragments.Users;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -50,6 +50,7 @@ public class UsersFragment extends Fragment implements UsersFragmentPresenter.Vi
 
     public UsersFragment() {
     }
+
 
     @Nullable
     @Override

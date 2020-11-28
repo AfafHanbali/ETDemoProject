@@ -1,4 +1,4 @@
-package com.example.ettdemoproject.MainFragments.Posts;
+package com.example.ettdemoproject.Fragments.HomeFragments.Posts;
 
 import com.example.ettdemoproject.DataModel.Post;
 import com.example.ettdemoproject.networking.RetrofitHandler;
