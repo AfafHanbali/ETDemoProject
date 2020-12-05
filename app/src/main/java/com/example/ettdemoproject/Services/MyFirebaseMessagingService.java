@@ -1,4 +1,4 @@
-package com.example.ettdemoproject;
+package com.example.ettdemoproject.Services;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,6 +13,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.example.ettdemoproject.R;
+import com.example.ettdemoproject.SharedPreferencesManager;
 import com.example.ettdemoproject.UI.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

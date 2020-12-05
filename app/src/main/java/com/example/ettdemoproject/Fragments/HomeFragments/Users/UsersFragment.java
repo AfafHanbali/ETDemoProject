@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +18,7 @@ import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.Events.FavClickEvent;
 import com.example.ettdemoproject.Events.UserClickEvent;
 import com.example.ettdemoproject.R;
-import com.example.ettdemoproject.RecyclerTouchListener;
+import com.example.ettdemoproject.Listeners.RecyclerTouchListener;
 import com.example.ettdemoproject.UI.UserInformationActivity;
 import com.google.android.material.snackbar.Snackbar;
 

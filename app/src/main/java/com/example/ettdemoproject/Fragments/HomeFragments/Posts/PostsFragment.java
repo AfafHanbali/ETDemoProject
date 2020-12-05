@@ -17,10 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.ettdemoproject.DataModel.Post;
-import com.example.ettdemoproject.DataModel.User;
 import com.example.ettdemoproject.R;
-import com.example.ettdemoproject.RecyclerTouchListener;
-import com.example.ettdemoproject.UI.UserInformationActivity;
+import com.example.ettdemoproject.Listeners.RecyclerTouchListener;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
