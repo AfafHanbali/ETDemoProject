@@ -9,19 +9,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.ettdemoproject.Fragments.HomeFragments.MainFragment;
 import com.example.ettdemoproject.Fragments.NotificationsFragment;
 import com.example.ettdemoproject.Fragments.ProfileFragment;
 import com.example.ettdemoproject.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import java.util.Objects;
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MainFragment mainFragment = new MainFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
     private NotificationsFragment notificationsFragment = new NotificationsFragment();
+    private String token;
 
     private Branch.BranchReferralInitListener branchReferralInitListener;
     private int id = -1;
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setTitle(APP_TITLE);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         View headerView = navigationView.getHeaderView(0);
         navHeaderName = headerView.findViewById(R.id.nav_header_name);
@@ -173,6 +177,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
         return true;
+    }
+
+    private void getToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        token = task.getResult();
+
+                        // Log
+                        Log.d(TAG, getString(R.string.token_msg) + token);
+                    }
+                });
     }
 
     @Override

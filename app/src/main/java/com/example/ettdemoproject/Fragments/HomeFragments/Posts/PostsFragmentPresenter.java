@@ -40,9 +40,8 @@ public class PostsFragmentPresenter {
 
     }
 
-    public void loadPosts() {
+    public void loadPosts(int startIndex, int limit, boolean load) {
 
-        view.showProgressDialog();
         Single<List<Post>> singleObservable = RetrofitHandler.getInstance(BASE_URL).getPosts();
         singleObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -54,8 +53,16 @@ public class PostsFragmentPresenter {
 
                     @Override
                     public void onSuccess(List<Post> posts) {
-                        view.hideProgressDialog();
-                        postsList = posts;
+                        view.hideProgressBar();
+                        if(!load){
+                            postsList = posts.subList(0, 10);
+                        }
+                        else if(limit <= posts.size()) {
+                            for(int i=startIndex; i<limit; i++){
+                                Post post = posts.get(i);
+                                postsList.add(post);
+                            }
+                        }
                         view.displayPosts(postsList);
                     }
 
@@ -74,6 +81,8 @@ public class PostsFragmentPresenter {
         void showProgressDialog();
 
         void hideProgressDialog();
+
+        void hideProgressBar();
 
         void displayPosts(List<Post> postsList);
 

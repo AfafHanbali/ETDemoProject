@@ -1,19 +1,18 @@
 package com.example.ettdemoproject.Fragments;
 
-
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.ettdemoproject.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * @author : Afaf Hanbali
+ * Created on 2020-Oct-5
  */
 public class ProfileFragment extends Fragment {
 

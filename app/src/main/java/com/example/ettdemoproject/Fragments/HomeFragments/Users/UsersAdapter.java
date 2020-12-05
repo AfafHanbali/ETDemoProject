@@ -53,6 +53,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     public void setUsersList(List<User> usersList) {
         this.usersList = usersList;
+        notifyDataSetChanged();
     }
 
     public void setHighlightedRow(int position) {
@@ -119,7 +120,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         TextView usernameTextView;
         @BindView(R.id.tv_email)
         TextView emailTextView;
-        @BindView(R.id.favButton)
+        @BindView(R.id.fav_button)
         Button favButton;
 
         public ViewHolder(@NonNull View itemView) {
@@ -130,11 +131,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            onUserClickEvent(usersList.get(getAdapterPosition()));
+           // onUserClickEvent(usersList.get(getAdapterPosition()));
         }
 
         private void onUserClickEvent(User user) {
-            EventBus.getDefault().post(new UserClickEvent(user));
+           // EventBus.getDefault().post(new UserClickEvent(user));
 
         }
     }

@@ -79,7 +79,6 @@ public class UsersFragmentPresenter {
         void showProgressDialog();
 
         void hideProgressDialog();
-
         void displayUsers(List<User> usersList);
 
         void showToast(String msg);

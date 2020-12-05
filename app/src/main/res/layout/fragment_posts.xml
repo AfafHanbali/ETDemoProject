@@ -1,13 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/posts_nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.HomeFragments.Albums.AlbumsFragment">
+    tools:context=".Fragments.HomeFragments.Posts.PostsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_posts"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_posts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/post_item_layout"/>
 
-</FrameLayout>
+        <ProgressBar
+            android:id="@+id/posts_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

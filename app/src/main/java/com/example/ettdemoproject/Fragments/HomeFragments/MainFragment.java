@@ -65,6 +65,10 @@ public class MainFragment extends Fragment {
         bottomNavigationMenuView.setSelectedItemId(R.id.page_users);
         viewPager.setCurrentItem(1);
 
+
+        viewPager.setUserInputEnabled(false);
+
+        /*
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -81,7 +85,8 @@ public class MainFragment extends Fragment {
                         break;
                 }
             }
-        });
+        });*/
+
 
         bottomNavigationMenuView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -93,7 +98,6 @@ public class MainFragment extends Fragment {
                     case R.id.page_users:
                         viewPager.setCurrentItem(1);
                         break;
-
                     case R.id.page_posts:
                         viewPager.setCurrentItem(2);
                         break;
@@ -114,7 +118,6 @@ public class MainFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 
 
