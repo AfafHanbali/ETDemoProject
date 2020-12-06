@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ettdemoproject.DataModel.Post;
 import com.example.ettdemoproject.R;
 
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -92,6 +93,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     private void clearHighlightedRow() {
         highlightedRow = -1;
     }
+
 
     @Override
     public int getItemCount() {

@@ -76,6 +76,7 @@ public class PostsFragmentPresenter {
     }
 
 
+
     public interface View {
 
         void showProgressDialog();

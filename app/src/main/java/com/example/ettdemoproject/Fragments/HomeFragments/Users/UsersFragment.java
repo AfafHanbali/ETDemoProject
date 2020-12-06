@@ -172,29 +172,8 @@ public class UsersFragment extends Fragment implements UsersFragmentPresenter.Vi
                             case R.id.user_share:
                                 User user = usersList.get(position);
                                 String id = Integer.toString(user.getId());
-                                String title = user.getName();
-                                String message = getString(R.string.userShareMsg, user.getName());
-                                BranchUniversalObject buo = getBranchUniversalObject(id, title);
-                                LinkProperties lp = getLinkProperties();
-                                ShareSheetStyle ss = getShareSheetStyle(message);
-
-                                buo.showShareSheet(getActivity(), lp, ss, new Branch.BranchLinkShareListener() {
-                                    @Override
-                                    public void onShareLinkDialogLaunched() {
-                                    }
-
-                                    @Override
-                                    public void onShareLinkDialogDismissed() {
-                                    }
-
-                                    @Override
-                                    public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
-                                    }
-
-                                    @Override
-                                    public void onChannelSelected(String channelName) {
-                                    }
-                                });
+                                String name = user.getName();
+                                shareUser(id, name);
                                 break;
 
                         }
@@ -245,6 +224,31 @@ public class UsersFragment extends Fragment implements UsersFragmentPresenter.Vi
 
         UserInformationActivity.startScreen(getActivity(), event.user);
 
+    }
+
+    private void shareUser(String id, String name) {
+        String message = getString(R.string.userShareMsg, name);
+        BranchUniversalObject buo = getBranchUniversalObject(id, name);
+        LinkProperties lp = getLinkProperties();
+        ShareSheetStyle ss = getShareSheetStyle(message);
+
+        buo.showShareSheet(getActivity(), lp, ss, new Branch.BranchLinkShareListener() {
+            @Override
+            public void onShareLinkDialogLaunched() {
+            }
+
+            @Override
+            public void onShareLinkDialogDismissed() {
+            }
+
+            @Override
+            public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
+            }
+
+            @Override
+            public void onChannelSelected(String channelName) {
+            }
+        });
     }
 
     private BranchUniversalObject getBranchUniversalObject(String id, String title) {

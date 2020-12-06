@@ -18,6 +18,7 @@ import com.example.ettdemoproject.DataModel.Post;
 import com.example.ettdemoproject.R;
 
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,6 +95,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
     private void clearHighlightedRow() {
         highlightedRow = -1;
+    }
+
+    private String getRandomString(){
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
     }
 
 

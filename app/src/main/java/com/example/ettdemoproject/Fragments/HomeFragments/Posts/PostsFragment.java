@@ -2,8 +2,11 @@ package com.example.ettdemoproject.Fragments.HomeFragments.Posts;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -21,7 +24,14 @@ import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.Listeners.RecyclerTouchListener;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +63,7 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
     @BindView(R.id.posts_progress_bar)
     ProgressBar progressBar;
 
+    protected List<Post> listPost;
     private ProgressDialog progressDialog;
     private PostsAdapter postsAdapter;
     private PostsFragmentPresenter presenter;
@@ -74,20 +85,26 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
         buildProgressDialog();
         postsAdapter = new PostsAdapter();
         presenter = new PostsFragmentPresenter(this);
-        presenter.loadPosts(startIndex, limit, load);
+       // presenter.loadPosts(startIndex, limit, load);
+
+
 
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        listPost= new ArrayList<Post>();
+        loadRandomTexts();
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    load = true;
+                  /*  load = true;
                     limit += 10;
                     startIndex += 10;
                     progressBar.setVisibility(View.VISIBLE);
-                    presenter.loadPosts(startIndex, limit, load);
+                    presenter.loadPosts(startIndex, limit, load);*/
+                    loadRandomTexts();
                 }
             }
         });
@@ -159,7 +176,7 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
                                 postList.remove(position);
                                 postsAdapter.setPostsList(postList);
 
-                                Snackbar.make(getView(),R.string.snackBar_text, Snackbar.LENGTH_LONG).
+                                Snackbar.make(getView(), R.string.snackBar_text, Snackbar.LENGTH_LONG).
                                         setAction(R.string.snackBar_action_text, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -174,28 +191,7 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
                                 Post postObj = postList.get(position);
                                 String id = Integer.toString((postObj.getId()));
                                 String title = postObj.getTitle();
-                                String message = getContext().getString(R.string.postShareMsg, title);
-                                BranchUniversalObject buo = getBranchUniversalObject(id, title);
-                                LinkProperties lp = getLinkProperties();
-                                ShareSheetStyle ss = getShareSheetStyle(message);
-
-                                buo.showShareSheet(getActivity(), lp, ss, new Branch.BranchLinkShareListener() {
-                                    @Override
-                                    public void onShareLinkDialogLaunched() {
-                                    }
-
-                                    @Override
-                                    public void onShareLinkDialogDismissed() {
-                                    }
-
-                                    @Override
-                                    public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
-                                    }
-
-                                    @Override
-                                    public void onChannelSelected(String channelName) {
-                                    }
-                                });
+                                sharePost(id, title);
                                 break;
                         }
                     }
@@ -211,6 +207,28 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
 
     private void clearPosition() {
         position = -1;
+    }
+
+    private void loadRandomTexts() {
+        for (int i = 0; i < 10; i++) {
+            Post post = new Post();
+            post.setId(getRandomInt());
+            post.setUserId(getRandomInt());
+            post.setTitle(getRandomString());
+            post.setBody(getRandomString());
+            listPost.add(post);
+        }
+
+        displayPosts(listPost);
+
+    }
+
+    private String getRandomString() {
+        return RandomStringUtils.randomAlphabetic(10);
+    }
+
+    private int getRandomInt() {
+        return Integer.parseInt(RandomStringUtils.randomNumeric(2));
     }
 
     @Override
@@ -243,7 +261,32 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
         progressBar.setVisibility(View.GONE);
     }
 
-    private BranchUniversalObject getBranchUniversalObject(String id, String title){
+    private void sharePost(String id, String title){
+        String message = getContext().getString(R.string.postShareMsg, title);
+        BranchUniversalObject buo = getBranchUniversalObject(id, title);
+        LinkProperties lp = getLinkProperties();
+        ShareSheetStyle ss = getShareSheetStyle(message);
+
+        buo.showShareSheet(getActivity(), lp, ss, new Branch.BranchLinkShareListener() {
+            @Override
+            public void onShareLinkDialogLaunched() {
+            }
+
+            @Override
+            public void onShareLinkDialogDismissed() {
+            }
+
+            @Override
+            public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
+            }
+
+            @Override
+            public void onChannelSelected(String channelName) {
+            }
+        });
+    }
+
+    private BranchUniversalObject getBranchUniversalObject(String id, String title) {
         return new BranchUniversalObject()
                 .setCanonicalIdentifier(id)
                 .setTitle(title)
@@ -252,8 +295,8 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
                 .setLocalIndexMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC);
     }
 
-    private LinkProperties getLinkProperties(){
-        return  new LinkProperties()
+    private LinkProperties getLinkProperties() {
+        return new LinkProperties()
                 .setChannel("facebook")
                 .setFeature("sharing")
                 .setCampaign("content 123 launch")

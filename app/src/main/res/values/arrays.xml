@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="image_urls">
+        <item>https://source.unsplash.com/user/erondu/800x800</item>
+        <item>https://source.unsplash.com/user/erondu/700x700</item>
+        <item>https://source.unsplash.com/user/erondu/750x750</item>
+        <item>https://source.unsplash.com/user/erondu/850x850</item>
+        <item>https://source.unsplash.com/user/erondu/900x900</item>
+    </array>
+</resources>

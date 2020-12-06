@@ -54,4 +54,6 @@ dependencies {
     implementation 'androidx.browser:browser:1.0.0'
     implementation "com.android.installreferrer:installreferrer:2.1"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'org.apache.commons:commons-text:1.7'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

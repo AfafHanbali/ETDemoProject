@@ -1,11 +1,17 @@
 package com.example.ettdemoproject.Fragments.HomeFragments.Albums;
 
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -15,15 +21,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.ettdemoproject.DataModel.Album;
 import com.example.ettdemoproject.R;
 import com.example.ettdemoproject.Listeners.RecyclerTouchListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +46,8 @@ import io.branch.referral.BranchError;
 import io.branch.referral.SharingHelper;
 import io.branch.referral.util.LinkProperties;
 import io.branch.referral.util.ShareSheetStyle;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 /**
@@ -56,6 +70,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     @BindView(R.id.albums_progress_bar)
     ProgressBar progressBar;
 
+    private Dialog imagePopup;
     private ProgressDialog progressDialog;
     private AlbumsAdapter albumsAdapter;
     private AlbumsFragmentPresenter presenter;
@@ -68,6 +83,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     private int startIndex = 0;
     private int limit = 10;
     private boolean load = false;
+    private List<String> urlsArray;
 
     public AlbumsFragment() {
     }
@@ -90,6 +106,8 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
         presenter = new AlbumsFragmentPresenter(this);
         presenter.loadAlbums(startIndex, limit, load);
         linearLayoutManager = new LinearLayoutManager(getActivity());
+        urlsArray = Arrays.asList(getResources().getStringArray(R.array.image_urls));
+        imagePopup = new Dialog(getContext());
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -142,7 +160,8 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
                 .setClickable(new RecyclerTouchListener.OnRowClickListener() {
                     @Override
                     public void onRowClicked(int position) {
-
+                        String url = urlsArray.get(new Random().nextInt(urlsArray.size()));
+                        loadPhoto(url);
                     }
 
                     @Override
@@ -176,28 +195,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
                                 Album albumObj = albumList.get(position);
                                 String id = Integer.toString((albumObj.getId()));
                                 String title = albumObj.getTitle();
-                                String message = getContext().getString(R.string.albumShareMsg, title);
-                                BranchUniversalObject buo = getBranchUniversalObject(id, title);
-                                LinkProperties lp = getLinkProperties();
-                                ShareSheetStyle ss = getShareSheetStyle(message);
-
-                                buo.showShareSheet(getActivity(), lp, ss, new Branch.BranchLinkShareListener() {
-                                    @Override
-                                    public void onShareLinkDialogLaunched() {
-                                    }
-
-                                    @Override
-                                    public void onShareLinkDialogDismissed() {
-                                    }
-
-                                    @Override
-                                    public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
-                                    }
-
-                                    @Override
-                                    public void onChannelSelected(String channelName) {
-                                    }
-                                });
+                                shareAlbum(id, title);
                                 break;
 
                         }
@@ -221,6 +219,19 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
         position = -1;
     }
 
+    private void loadPhoto(String url) {
+        imagePopup.setContentView(R.layout.custom_popup_layout);
+        ImageView imageView = imagePopup.findViewById(R.id.custom_image);
+        Picasso.get().load(url).into(imageView);
+
+        imagePopup.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+            }
+        });
+        imagePopup.show();
+
+    }
 
     @Override
     public void showToast(String toastMsg) {
@@ -252,7 +263,33 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
         progressBar.setVisibility(View.GONE);
     }
 
-    private BranchUniversalObject getBranchUniversalObject(String id, String title){
+    private void shareAlbum(String id, String title){
+        String message = getContext().getString(R.string.albumShareMsg, title);
+        BranchUniversalObject buo = getBranchUniversalObject(id, title);
+        LinkProperties lp = getLinkProperties();
+        ShareSheetStyle ss = getShareSheetStyle(message);
+
+        buo.showShareSheet(getActivity(), lp, ss, new Branch.BranchLinkShareListener() {
+            @Override
+            public void onShareLinkDialogLaunched() {
+            }
+
+            @Override
+            public void onShareLinkDialogDismissed() {
+            }
+
+            @Override
+            public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
+            }
+
+            @Override
+            public void onChannelSelected(String channelName) {
+            }
+        });
+
+    }
+
+    private BranchUniversalObject getBranchUniversalObject(String id, String title) {
         return new BranchUniversalObject()
                 .setCanonicalIdentifier(id)
                 .setTitle(title)
@@ -261,8 +298,8 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
                 .setLocalIndexMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC);
     }
 
-    private LinkProperties getLinkProperties(){
-        return  new LinkProperties()
+    private LinkProperties getLinkProperties() {
+        return new LinkProperties()
                 .setChannel("facebook")
                 .setFeature("sharing")
                 .setCampaign("content 123 launch")
