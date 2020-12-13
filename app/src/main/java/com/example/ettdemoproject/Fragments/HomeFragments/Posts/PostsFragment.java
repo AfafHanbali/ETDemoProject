@@ -1,6 +1,7 @@
 package com.example.ettdemoproject.Fragments.HomeFragments.Posts;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,7 +64,7 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
     @BindView(R.id.posts_progress_bar)
     ProgressBar progressBar;
 
-    protected List<Post> listPost;
+    private List<Post> listPost;
     private ProgressDialog progressDialog;
     private PostsAdapter postsAdapter;
     private PostsFragmentPresenter presenter;
@@ -74,9 +75,10 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
     private int startIndex = 0;
     private int limit = 10;
     private boolean load = false;
+    private Activity activity;
 
-    public PostsFragment() {
-
+    public PostsFragment(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -85,14 +87,13 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
         buildProgressDialog();
         postsAdapter = new PostsAdapter();
         presenter = new PostsFragmentPresenter(this);
-       // presenter.loadPosts(startIndex, limit, load);
-
+        // presenter.loadPosts(startIndex, limit, load);
 
 
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        listPost= new ArrayList<Post>();
+        listPost = new ArrayList<Post>();
         loadRandomTexts();
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -171,7 +172,6 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
                     public void onSwipeOptionClicked(int viewID, int position) {
                         switch (viewID) {
                             case R.id.post_delete:
-                                int tmpPosition = position;
                                 Post tmpPost = postList.get(position);
                                 postList.remove(position);
                                 postsAdapter.setPostsList(postList);
@@ -180,7 +180,7 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
                                         setAction(R.string.snackBar_action_text, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                postList.add(tmpPosition, tmpPost);
+                                                postList.add(position, tmpPost);
                                                 postsAdapter.setPostsList(postList);
                                             }
 
@@ -261,13 +261,13 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
         progressBar.setVisibility(View.GONE);
     }
 
-    private void sharePost(String id, String title){
-        String message = getContext().getString(R.string.postShareMsg, title);
+    private void sharePost(String id, String title) {
+        String message = getString(R.string.postShareMsg, title);
         BranchUniversalObject buo = getBranchUniversalObject(id, title);
         LinkProperties lp = getLinkProperties();
         ShareSheetStyle ss = getShareSheetStyle(message);
 
-        buo.showShareSheet(getActivity(), lp, ss, new Branch.BranchLinkShareListener() {
+        buo.showShareSheet(activity, lp, ss, new Branch.BranchLinkShareListener() {
             @Override
             public void onShareLinkDialogLaunched() {
             }
@@ -304,9 +304,9 @@ public class PostsFragment extends Fragment implements PostsFragmentPresenter.Vi
     }
 
     private ShareSheetStyle getShareSheetStyle(String message) {
-        return new ShareSheetStyle(getContext(), SUBJECT, message)
-                .setCopyUrlStyle(ContextCompat.getDrawable(getContext(), android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
-                .setMoreOptionStyle(ContextCompat.getDrawable(getContext(), android.R.drawable.ic_menu_search), "Show more")
+        return new ShareSheetStyle(activity.getApplicationContext(), SUBJECT, message)
+                .setCopyUrlStyle(ContextCompat.getDrawable(activity.getApplicationContext(), android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
+                .setMoreOptionStyle(ContextCompat.getDrawable(activity.getApplicationContext(), android.R.drawable.ic_menu_search), "Show more")
                 .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
                 .addPreferredSharingOption(SharingHelper.SHARE_WITH.GMAIL)
                 .setAsFullWidthStyle(true)

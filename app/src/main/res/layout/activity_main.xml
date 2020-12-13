@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout">
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/app_bar_main" />
 
 
-    <FrameLayout
-        android:id="@+id/nav_drawer_fragment"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_drawer_view"
@@ -20,7 +23,9 @@
         android:layout_gravity="start|left"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_header"
+        app:itemIconTint="@drawable/drawer_item_selector"
         app:itemTextAppearance="?android:attr/textAppearanceMedium"
+        app:itemTextColor="@drawable/drawer_item_selector"
         app:menu="@menu/drawer_navigation_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

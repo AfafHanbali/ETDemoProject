@@ -4,14 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -23,6 +26,7 @@ import com.example.ettdemoproject.Fragments.ProfileFragment;
 import com.example.ettdemoproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,9 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String APP_TITLE = "HOME";
     public static final String DATABASE_NAME = "name";
     public static final String DATABASE_EMAIL = "email";
-        public static final String LOGOUT_TITLE = "Logout";
+    public static final String LOGOUT_TITLE = "Logout";
     public static final String LOGOUT_MSG = "Do you really want to logout?";
-
 
 
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -62,10 +65,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseReference reference = database.getReference("Users");
     private FirebaseUser firebaseUser;
 
+    @BindView(R.id.toolbar)
+    Toolbar mainToolBar;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation_drawer_view)
     NavigationView navigationView;
+    @BindView(R.id.fabLayout_user)
+    LinearLayout userFabLayout;
+    @BindView(R.id.fabLayout_album)
+    LinearLayout albumFabLayout;
+    @BindView(R.id.fabLayout_post)
+    LinearLayout postFabLayout;
+    @BindView(R.id.fab_add)
+    FloatingActionButton addFab;
+    @BindView(R.id.fab_user)
+    FloatingActionButton userFab;
+    @BindView(R.id.fab_album)
+    FloatingActionButton albumFab;
+    @BindView(R.id.fab_post)
+    FloatingActionButton postFab;
+
     TextView navHeaderName;
     TextView navHeaderEmail;
 
@@ -77,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ProfileFragment profileFragment = new ProfileFragment();
     private NotificationsFragment notificationsFragment = new NotificationsFragment();
     private String token;
+    private boolean isFABOpen = false;
 
     private Branch.BranchReferralInitListener branchReferralInitListener;
     private int id = -1;
@@ -90,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setSupportActionBar(mainToolBar);
         getSupportActionBar().setTitle(APP_TITLE);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -108,6 +130,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
         setDefaultFragment();
+
+        addFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isFABOpen) {
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
+                }
+            }
+        });
+
 
         /*
         branchReferralInitListener = new Branch.BranchReferralInitListener() {
@@ -179,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void getToken(){
+    private void getToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -243,30 +277,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_home:
                 fragment = mainFragment;
-                navigationView.getMenu().findItem(R.id.nav_profile)
-                        .setCheckable(false)
-                        .setChecked(false);
-                navigationView.getMenu().findItem(R.id.nav_notifications)
-                        .setCheckable(false)
-                        .setChecked(false);
                 break;
             case R.id.nav_profile:
                 fragment = profileFragment;
-                navigationView.getMenu().findItem(R.id.nav_home)
-                        .setCheckable(false)
-                        .setChecked(false);
-                navigationView.getMenu().findItem(R.id.nav_notifications)
-                        .setCheckable(false)
-                        .setChecked(false);
                 break;
             case R.id.nav_notifications:
                 fragment = notificationsFragment;
-                navigationView.getMenu().findItem(R.id.nav_profile)
-                        .setCheckable(false)
-                        .setChecked(false);
-                navigationView.getMenu().findItem(R.id.nav_home)
-                        .setCheckable(false)
-                        .setChecked(false);
                 break;
             case R.id.nav_logout:
                 isTransaction = false;
@@ -277,8 +293,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (isTransaction) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.nav_drawer_fragment, fragment).commit();
-
-            item.setChecked(true);
             item.setCheckable(true);
             getSupportActionBar().setTitle(item.getTitle());
             drawerLayout.closeDrawers();
@@ -304,6 +318,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 })
                 .setNegativeButton(R.string.no, null).show();
 
+    }
+
+
+    private void showFABMenu() {
+        isFABOpen = true;
+        userFabLayout.setVisibility(View.VISIBLE);
+        albumFabLayout.setVisibility(View.VISIBLE);
+        postFabLayout.setVisibility(View.VISIBLE);
+        addFab.animate().rotationBy(180);
+        userFabLayout.animate().translationY(-getResources().getDimension(R.dimen.standard_60));
+        albumFabLayout.animate().translationY(-getResources().getDimension(R.dimen.standard_110));
+        postFabLayout.animate().translationY(-getResources().getDimension(R.dimen.standard_160));
+    }
+
+    private void closeFABMenu() {
+        isFABOpen = false;
+        addFab.animate().rotation(0);
+        userFabLayout.animate().translationY(0);
+        albumFabLayout.animate().translationY(0);
+        postFabLayout.animate().translationY(0);
+        postFabLayout.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if (!isFABOpen) {
+                    userFabLayout.setVisibility(View.GONE);
+                    albumFabLayout.setVisibility(View.GONE);
+                    postFabLayout.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
     }
 
 }

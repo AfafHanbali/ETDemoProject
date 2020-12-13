@@ -1,6 +1,7 @@
 package com.example.ettdemoproject.Fragments.HomeFragments.Albums;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -47,8 +48,6 @@ import io.branch.referral.SharingHelper;
 import io.branch.referral.util.LinkProperties;
 import io.branch.referral.util.ShareSheetStyle;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-
 
 /**
  * @author : Afaf Hanbali
@@ -56,8 +55,8 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  */
 public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.View {
 
-    public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
-    public static final String PROGRESS_MSG_CONTENT = ("The List of Albums is loading...");
+    private static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
+    private static final String PROGRESS_MSG_CONTENT = ("The List of Albums is loading...");
     private static final CharSequence SHARE_CHOOSER_TITLE = "Share with";
     private static final String TYPE = "album";
     private static final String SUBJECT = "Album Details";
@@ -75,17 +74,18 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     private AlbumsAdapter albumsAdapter;
     private AlbumsFragmentPresenter presenter;
     private LinearLayoutManager linearLayoutManager;
-    private View view;
     private Unbinder unbinder;
     private RecyclerTouchListener touchListener;
 
-    public int position = -1;
+    private int position = -1;
     private int startIndex = 0;
     private int limit = 10;
     private boolean load = false;
+    private Activity activity;
     private List<String> urlsArray;
 
-    public AlbumsFragment() {
+    public AlbumsFragment(Activity activity) {
+        this.activity = activity;
     }
 
 
@@ -93,7 +93,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_albums, container, false);
+       View view = inflater.inflate(R.layout.fragment_albums, container, false);
         return view;
     }
 
@@ -175,7 +175,6 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
                     public void onSwipeOptionClicked(int viewID, int position) {
                         switch (viewID) {
                             case R.id.album_delete:
-                                int tmpPosition = position;
                                 Album tmpAlbum = albumList.get(position);
                                 albumList.remove(position);
                                 albumsAdapter.setUsersList(albumList);
@@ -184,7 +183,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
                                         setAction(R.string.snackBar_action_text, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                albumList.add(tmpPosition, tmpAlbum);
+                                                albumList.add(position, tmpAlbum);
                                                 albumsAdapter.setUsersList(albumList);
                                             }
 
@@ -264,7 +263,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     }
 
     private void shareAlbum(String id, String title){
-        String message = getContext().getString(R.string.albumShareMsg, title);
+        String message = getString(R.string.albumShareMsg, title);
         BranchUniversalObject buo = getBranchUniversalObject(id, title);
         LinkProperties lp = getLinkProperties();
         ShareSheetStyle ss = getShareSheetStyle(message);
@@ -307,9 +306,9 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     }
 
     private ShareSheetStyle getShareSheetStyle(String message) {
-        return new ShareSheetStyle(getContext(), SUBJECT, message)
-                .setCopyUrlStyle(ContextCompat.getDrawable(getContext(), android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
-                .setMoreOptionStyle(ContextCompat.getDrawable(getContext(), android.R.drawable.ic_menu_search), "Show more")
+        return new ShareSheetStyle(activity.getApplicationContext(), SUBJECT, message)
+                .setCopyUrlStyle(ContextCompat.getDrawable(activity.getApplicationContext(), android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
+                .setMoreOptionStyle(ContextCompat.getDrawable(activity.getApplicationContext(), android.R.drawable.ic_menu_search), "Show more")
                 .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
                 .addPreferredSharingOption(SharingHelper.SHARE_WITH.GMAIL)
                 .setAsFullWidthStyle(true)

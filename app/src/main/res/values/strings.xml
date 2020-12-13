@@ -39,6 +39,12 @@
     <string name="token_msg">User token: </string>
     <string name="snackBar_text">User Deleted.</string>
     <string name="snackBar_action_text">Undo</string>
+    <string name="tab_album">Albums</string>
+    <string name="tab_user">Users</string>
+    <string name="tab_post">Posts</string>
+    <string name="add_a_post">Add a Post</string>
+    <string name="add_an_album">Add an Album</string>
+    <string name="add_a_user">Add a User</string>
 
 
 </resources>

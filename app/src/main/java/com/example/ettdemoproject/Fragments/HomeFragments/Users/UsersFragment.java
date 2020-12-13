@@ -1,5 +1,6 @@
 package com.example.ettdemoproject.Fragments.HomeFragments.Users;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,11 +45,11 @@ import io.branch.referral.util.ShareSheetStyle;
  */
 public class UsersFragment extends Fragment implements UsersFragmentPresenter.View {
 
-    public static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
-    public static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
-    public static final String TYPE = "user";
-    public static final String SUBJECT = "User Details";
-    public static final String SHARE_CHOOSER_TITLE = "Share with";
+    private static final String PROGRESS_MSG_TITLE = ("Just a Sec...");
+    private static final String PROGRESS_MSG_CONTENT = ("The List of Users is loading...");
+    private static final String TYPE = "user";
+    private static final String SUBJECT = "User Details";
+    private static final String SHARE_CHOOSER_TITLE = "Share with";
 
     private int position = -1;
 
@@ -61,8 +62,10 @@ public class UsersFragment extends Fragment implements UsersFragmentPresenter.Vi
     private UsersFragmentPresenter presenter;
     private Unbinder unbinder;
     private RecyclerTouchListener touchListener;
+    private Activity activity;
 
-    public UsersFragment() {
+    public UsersFragment(Activity activity) {
+        this.activity = activity;
     }
 
 
@@ -153,7 +156,6 @@ public class UsersFragment extends Fragment implements UsersFragmentPresenter.Vi
                     public void onSwipeOptionClicked(int viewID, int position) {
                         switch (viewID) {
                             case R.id.user_delete:
-                                int tmpPosition = position;
                                 User tmpUser = usersList.get(position);
                                 usersList.remove(position);
                                 usersAdapter.setUsersList(usersList);
@@ -162,7 +164,7 @@ public class UsersFragment extends Fragment implements UsersFragmentPresenter.Vi
                                         setAction(R.string.snackBar_action_text, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                usersList.add(tmpPosition, tmpUser);
+                                                usersList.add(position, tmpUser);
                                                 usersAdapter.setUsersList(usersList);
                                             }
 
@@ -232,7 +234,7 @@ public class UsersFragment extends Fragment implements UsersFragmentPresenter.Vi
         LinkProperties lp = getLinkProperties();
         ShareSheetStyle ss = getShareSheetStyle(message);
 
-        buo.showShareSheet(getActivity(), lp, ss, new Branch.BranchLinkShareListener() {
+        buo.showShareSheet(activity, lp, ss, new Branch.BranchLinkShareListener() {
             @Override
             public void onShareLinkDialogLaunched() {
             }
@@ -269,9 +271,9 @@ public class UsersFragment extends Fragment implements UsersFragmentPresenter.Vi
     }
 
     private ShareSheetStyle getShareSheetStyle(String message) {
-        return new ShareSheetStyle(getContext(), SUBJECT, message)
-                .setCopyUrlStyle(ContextCompat.getDrawable(getContext(), android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
-                .setMoreOptionStyle(ContextCompat.getDrawable(getContext(), android.R.drawable.ic_menu_search), "Show more")
+        return new ShareSheetStyle(activity.getApplicationContext(), SUBJECT, message)
+                .setCopyUrlStyle(ContextCompat.getDrawable(activity.getApplicationContext(), android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
+                .setMoreOptionStyle(ContextCompat.getDrawable(activity, android.R.drawable.ic_menu_search), "Show more")
                 .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
                 .addPreferredSharingOption(SharingHelper.SHARE_WITH.GMAIL)
                 .setAsFullWidthStyle(true)

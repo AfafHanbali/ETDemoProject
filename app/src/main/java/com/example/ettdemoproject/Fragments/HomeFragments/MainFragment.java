@@ -1,9 +1,13 @@
 package com.example.ettdemoproject.Fragments.HomeFragments;
 
 
+import android.animation.Animator;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -13,12 +17,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.ettdemoproject.Fragments.HomeFragments.Albums.AlbumsFragment;
 import com.example.ettdemoproject.Fragments.HomeFragments.Posts.PostsFragment;
 import com.example.ettdemoproject.Fragments.HomeFragments.Users.UsersFragment;
 import com.example.ettdemoproject.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,15 +46,16 @@ public class MainFragment extends Fragment {
     private static final String TYPE_ALBUM = "album";
     private static final int NUM_PAGES = 3;
 
-    @BindView(R.id.bottom_navigation)
-    BottomNavigationView bottomNavigationMenuView;
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
     @BindView(R.id.viewPager)
     ViewPager2 viewPager;
 
+
     private FragmentStateAdapter pagerAdapter;
-    private UsersFragment usersFragment = new UsersFragment();
-    private AlbumsFragment albumsFragment = new AlbumsFragment();
-    private PostsFragment postsFragment = new PostsFragment();
+    private UsersFragment usersFragment = new UsersFragment(getActivity());
+    private AlbumsFragment albumsFragment = new AlbumsFragment(getActivity());
+    private PostsFragment postsFragment = new PostsFragment(getActivity());
 
     private Unbinder unbinder;
 
@@ -62,55 +73,23 @@ public class MainFragment extends Fragment {
 
         pagerAdapter = new ScreenSlidePagerAdapter(getActivity());
         viewPager.setAdapter(pagerAdapter);
-        bottomNavigationMenuView.setSelectedItemId(R.id.page_users);
         viewPager.setCurrentItem(1);
 
 
         viewPager.setUserInputEnabled(false);
-
-        /*
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                switch (position) {
-                    case 0:
-                        bottomNavigationMenuView.setSelectedItemId(R.id.page_albums);
-                        break;
-                    case 1:
-                        bottomNavigationMenuView.setSelectedItemId(R.id.page_users);
-                        break;
-                    case 2:
-                        bottomNavigationMenuView.setSelectedItemId(R.id.page_posts);
-                        break;
-                }
-            }
-        });*/
-
-
-        bottomNavigationMenuView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.page_albums:
-                        viewPager.setCurrentItem(0);
-                        break;
-                    case R.id.page_users:
-                        viewPager.setCurrentItem(1);
-                        break;
-                    case R.id.page_posts:
-                        viewPager.setCurrentItem(2);
-                        break;
-                }
-                return true;
-            }
-        });
-
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText("OBJECT " + (position + 1))
+        ).attach();
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_album_icon)
+                .setText(R.string.tab_album);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_users_icon)
+                .setText(R.string.tab_user);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_posts_icon)
+                .setText(R.string.tab_post);
 
         return view;
 
     }
-
 
 
     @Override
@@ -118,7 +97,6 @@ public class MainFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 
     private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
@@ -150,5 +128,6 @@ public class MainFragment extends Fragment {
         }
 
     }
+
 
 }
