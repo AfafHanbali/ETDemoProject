@@ -20,7 +20,7 @@ public interface JsonPlaceHolder {
 
     public String API_USERS = "users";
     public String API_POSTS = "posts";
-    public String API_ALBUMS = "albums";
+    public String API_ALBUMS = "photos";
     public String QUERY_PAGE = "page";
     public String QUERY_LIMIT = "limit";
 

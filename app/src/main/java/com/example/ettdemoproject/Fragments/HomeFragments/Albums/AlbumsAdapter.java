@@ -6,16 +6,15 @@ import android.graphics.drawable.TransitionDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ettdemoproject.DataModel.Album;
-import com.example.ettdemoproject.DataModel.Post;
 import com.example.ettdemoproject.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.UUID;
@@ -81,7 +80,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
         String albumId = context.getString(R.string.albumId, Integer.toString(albumObj.getUserId()), Integer.toString(albumObj.getId()));
         String id = Integer.toString((albumObj.getId()));
         String title = albumObj.getTitle();
-        holder.userIdTextView.setText(albumId);
+        String url = albumObj.getUrl();
+        Picasso.get().load(url).into(holder.albumImage);
         holder.albumTitleTextView.setText(title);
 
         if (highlightedRow == position) {
@@ -110,8 +110,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.tv_albumUserId)
-        TextView userIdTextView;
+        @BindView(R.id.tv_albumUrl)
+        ImageView albumImage;
         @BindView(R.id.tv_albumTitle)
         TextView albumTitleTextView;
 

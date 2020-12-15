@@ -18,6 +18,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     private ProgressDialog progressDialog;
     private AlbumsAdapter albumsAdapter;
     private AlbumsFragmentPresenter presenter;
-    private LinearLayoutManager linearLayoutManager;
+    StaggeredGridLayoutManager staggeredGridLayoutManager;
     private Unbinder unbinder;
     private RecyclerTouchListener touchListener;
 
@@ -105,7 +106,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
         buildProgressDialog();
         presenter = new AlbumsFragmentPresenter(this);
         presenter.loadAlbums(startIndex, limit, load);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         urlsArray = Arrays.asList(getResources().getStringArray(R.array.image_urls));
         imagePopup = new Dialog(getContext());
 
@@ -153,14 +154,14 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     public void displayAlbums(List<Album> albumList) {
         albumsAdapter = new AlbumsAdapter(getActivity(), albumList);
         listOfAlbums.setAdapter(albumsAdapter);
-        listOfAlbums.setLayoutManager(linearLayoutManager);
+        listOfAlbums.setLayoutManager(staggeredGridLayoutManager);
 
         touchListener = new RecyclerTouchListener(getActivity(), listOfAlbums);
         touchListener
                 .setClickable(new RecyclerTouchListener.OnRowClickListener() {
                     @Override
                     public void onRowClicked(int position) {
-                        String url = urlsArray.get(new Random().nextInt(urlsArray.size()));
+                        String url = albumList.get(position).getUrl();
                         loadPhoto(url);
                     }
 
