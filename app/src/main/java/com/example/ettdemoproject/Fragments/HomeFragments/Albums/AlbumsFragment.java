@@ -4,6 +4,7 @@ package com.example.ettdemoproject.Fragments.HomeFragments.Albums;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -24,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -74,7 +78,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     private ProgressDialog progressDialog;
     private AlbumsAdapter albumsAdapter;
     private AlbumsFragmentPresenter presenter;
-    StaggeredGridLayoutManager staggeredGridLayoutManager;
+    private GridLayoutManager gridLayoutManager;
     private Unbinder unbinder;
     private RecyclerTouchListener touchListener;
 
@@ -94,7 +98,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-       View view = inflater.inflate(R.layout.fragment_albums, container, false);
+        View view = inflater.inflate(R.layout.fragment_albums, container, false);
         return view;
     }
 
@@ -106,7 +110,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
         buildProgressDialog();
         presenter = new AlbumsFragmentPresenter(this);
         presenter.loadAlbums(startIndex, limit, load);
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
         urlsArray = Arrays.asList(getResources().getStringArray(R.array.image_urls));
         imagePopup = new Dialog(getContext());
 
@@ -154,7 +158,11 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
     public void displayAlbums(List<Album> albumList) {
         albumsAdapter = new AlbumsAdapter(getActivity(), albumList);
         listOfAlbums.setAdapter(albumsAdapter);
-        listOfAlbums.setLayoutManager(staggeredGridLayoutManager);
+        listOfAlbums.setLayoutManager(gridLayoutManager);
+
+        LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(listOfAlbums.getContext(), R.anim.grid_layout_animation_from_bottom);
+        listOfAlbums.setLayoutAnimation(controller);
 
         touchListener = new RecyclerTouchListener(getActivity(), listOfAlbums);
         touchListener
@@ -263,7 +271,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
         progressBar.setVisibility(View.GONE);
     }
 
-    private void shareAlbum(String id, String title){
+    private void shareAlbum(String id, String title) {
         String message = getString(R.string.albumShareMsg, title);
         BranchUniversalObject buo = getBranchUniversalObject(id, title);
         LinkProperties lp = getLinkProperties();

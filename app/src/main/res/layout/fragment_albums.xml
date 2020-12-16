@@ -11,11 +11,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.example.ettdemoproject.Fragments.HomeFragments.Albums.GridRecyclerView
         android:id="@+id/rv_albums"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/album_item_layout"/>
+        tools:listitem="@layout/album_item_layout"
+        />
 
         <ProgressBar
             android:id="@+id/albums_progress_bar"
