@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, SUCCESS_MSG);
                             progressDialog.dismiss();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
                         } else {
                             progressDialog.dismiss();
                             firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
