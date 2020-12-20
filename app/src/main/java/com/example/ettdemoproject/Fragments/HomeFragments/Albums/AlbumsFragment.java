@@ -110,7 +110,7 @@ public class AlbumsFragment extends Fragment implements AlbumsFragmentPresenter.
         buildProgressDialog();
         presenter = new AlbumsFragmentPresenter(this);
         presenter.loadAlbums(startIndex, limit, load);
-        gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        gridLayoutManager = new GridLayoutManager(getContext(), 3);
         urlsArray = Arrays.asList(getResources().getStringArray(R.array.image_urls));
         imagePopup = new Dialog(getContext());
 

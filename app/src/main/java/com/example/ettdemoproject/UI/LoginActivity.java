@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String NO_USERNAME_ERROR = "User Doesn't exist";
     private static final String NO_EMAIL_ERROR = "Email Doesn't exist";
     private static final String WRONG_PASSWORD_ERROR = "Password isn't Correct";
+    private static final String NOT_VALID_EMAIL_ERROR = "Please Enter a Valid Email";
 
 
     private FirebaseAuth firebaseAuth;
@@ -88,6 +90,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (password.isEmpty()) {
                     passwordEditText.setError(PASSWORD_ERROR);
                     passwordEditText.requestFocus();
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
+                    usernameEditText.setError(NOT_VALID_EMAIL_ERROR);
+                    usernameEditText.requestFocus();
                     return;
                 }
                 loginAuth(username, password);
